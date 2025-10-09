@@ -1,6 +1,6 @@
 <?= view('layouts/header')?>
 
-<P>go home anjayyyy</P>
+<P>INI HALAMAN DASHBOARD</P>
 <ul>
     <?php foreach ($items as $item): ?>
         <li><?= $item['name'] ?> - <?= $item['description'] ?></li>
