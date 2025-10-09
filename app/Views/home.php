@@ -1,6 +1,6 @@
 <?= view('layouts/header')?>
 
-<P>INI HOME</P>
+<P>go home</P>
 <ul>
     <?php foreach ($items as $item): ?>
         <li><?= $item['name'] ?> - <?= $item['description'] ?></li>
