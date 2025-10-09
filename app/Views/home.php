@@ -1,6 +1,6 @@
 <?= view('layouts/header')?>
 
-<P>go home anjayyyy</P>
+<P>go home anjayyyyserrrrr</P>
 <ul>
     <?php foreach ($items as $item): ?>
         <li><?= $item['name'] ?> - <?= $item['description'] ?></li>
