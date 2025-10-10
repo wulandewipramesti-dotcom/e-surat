@@ -1,0 +1,8 @@
+# CodeIgniter 4 Framework
+Before Create
+- git pull origin main
+After Create
+- git status
+- git add .
+- git commit -m "OPSIONAL"
+-git push origin main
