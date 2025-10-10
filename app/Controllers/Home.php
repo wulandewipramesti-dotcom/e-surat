@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\HomeModel;
 
-class Home extends BaseController
+use CodeIgniter\Controller;
+
+class Home extends Controller
 {
-    public function index(): string
+    public function index()
     {
-        $model = new HomeModel();
-        $data = ['items' => $model->getAll()];
-        return view('home', $data);
+        return view('home');
     }
 }
