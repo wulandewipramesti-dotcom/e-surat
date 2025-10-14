@@ -8,6 +8,11 @@ class Home extends Controller
 {
     public function index()
     {
-        return view('home');
+
+        $data = array(
+            "title" => "Dashboard",
+            "menuDashboard" => "active",
+        );
+        return view('home', $data);
     }
 }
