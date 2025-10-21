@@ -46,7 +46,9 @@
                                             E-Surat | Login
                                         </h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" method="post" action="<?= route_to('LoginProses') ?>">
+                                        <?= csrf_field() ?>
+
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 placeholder="Enter Email Address..." name="email">
@@ -55,8 +57,11 @@
                                             <input type="password" class="form-control form-control-user"
                                                  placeholder="Password" name="password">
                                         </div>
-                                        
-                                        <button type="submit" href="#" class="btn btn-primary btn-user btn-block">
+
+                                        <a href="index.html" class="btn btn-google btn-user btn-block">
+                                            <i class="fab fa-google fa-fw"></i> Login with Google
+                                        </a>   
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
                                     </form>
@@ -80,8 +85,8 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
+   <script src="<?= base_url('sbadmin2/vendor/jquery/jquery.min.js'); ?>"></script>
     <script src="<?= base_url('sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
-    <script src="<?= base_url('sbadmin2/vendor/jquery/jquery.min.js'); ?>"></script>
     <script src="<?= base_url('sbadmin2/vendor/jquery-easing/jquery.easing.min.js'); ?>"></script>
     <script src="<?= base_url('sbadmin2/js/sb-admin-2.min.js'); ?>"></script>
 
