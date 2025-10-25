@@ -2,17 +2,22 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
-
-class Home extends Controller
+class Home extends BaseController
 {
     public function index()
     {
+        // Cek apakah user sudah login
+        if (!session()->get('logged_in')) {
+            return redirect()->to(route_to('login'));
+        }
 
-        $data = array(
-            "title" => "Dashboard",
-            "menuDashboard" => "active",
-        );
+        // Jika sudah login
+        $data = [
+            'title' => 'Dashboard',
+            'nama'  => session()->get('nama'),
+            'role'  => session()->get('role')
+        ];
+
         return view('home', $data);
     }
 }
