@@ -16,40 +16,40 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Semester</th>
-                                            <th>Tahun Ajaran</th>
-                                            <th>Nama Orangtua</th>
-                                            <th>Pangkat</th>
-                                            <th>Status</th>
-                                            <th>action</th>
+                               <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                <thead class="bg-primary text-white text-center">
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Surat</th>
+                        <th>Info</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center">
+                        <td>1</td>
+                        <td>Tiger Nixon</td>
+                        <td>Tiger@test</td>
+                        <td>Surat Keterangan Kuliah</td>
+                        <td>
+                            <span class="badge badge-danger badge-pill">
+                                Belum Disetujui
+                            </span>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                            <td class="text-center"></td>
-                                            <td>
-                                                <a href="#" class="btn btn-warning btn-sm">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                 <a href="#" class="btn btn-danger btn-sm">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
+                </tbody>
+            </table>
                             </div>
         </div>
     </div>
