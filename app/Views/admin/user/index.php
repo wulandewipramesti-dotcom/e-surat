@@ -22,7 +22,7 @@
                         <th>No</th>
                         <th>Nama</th>
                         <th>Email</th>
-                        <th>Surat</th>
+                        <th>Jenis Surat</th>
                         <th>Info</th>
                         <th>Action</th>
                     </tr>
@@ -47,6 +47,26 @@
                             </a>
                         </td>
                     </tr>
+                    <tr class="text-center">
+                        <td>2</td>
+                        <td>Bunga</td>
+                        <td>Tiger@bunga</td>
+                        <td>Surat Meminjam Ruangan</td>
+                        <td>
+                            <span class="badge badge-danger badge-pill">
+                                Diproses
+                            </span>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    
 
                 </tbody>
             </table>
