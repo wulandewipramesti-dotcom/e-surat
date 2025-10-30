@@ -35,16 +35,16 @@
                         <td>Surat Keterangan Kuliah</td>
                         <td>
                             <span class="badge badge-danger badge-pill">
-                                Belum Disetujui
+                                Menunggu
                             </span>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-warning btn-sm">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="#" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i>
-                            </a>
+                             <button class="btn btn-success btn-sm" data-toggle="tooltip" title="Setujui">
+                                <i class="fas fa-check"></i> Setujui
+                            </button>
+                             <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="Tolak">
+                                <i class="fas fa-times"></i> Tolak
+                            </button>
                         </td>
                     </tr>
                     <tr class="text-center">
@@ -54,16 +54,34 @@
                         <td>Surat Meminjam Ruangan</td>
                         <td>
                             <span class="badge badge-danger badge-pill">
-                                Diproses
+                                Menunggu
                             </span>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-warning btn-sm">
-                                <i class="fas fa-edit"></i>
+                            <button class="btn btn-success btn-sm" data-toggle="tooltip" title="Setujui">
+                                <i class="fas fa-check"></i> Setujui
+                            </button>
+                             <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="Tolak">
+                                <i class="fas fa-times"></i> Tolak
+                            </button>
+                        </td>
+                    </tr>
+
+                     <tr class="text-center">
+                        <td>2</td>
+                        <td>Bunga</td>
+                        <td>Tiger@bunga</td>
+                        <td>Surat Meminjam Ruangan</td>
+                        <td>
+                            <span class="badge badge-danger badge-pill">
+                               Diproses
+                            </span>
+                        </td>
+                        <td>
+                            <a href="" class="btn btn-primary btn-sm">
+                            <i class="fas fa-print"></i> Cetak Surat
                             </a>
-                            <a href="#" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i>
-                            </a>
+
                         </td>
                     </tr>
                     
