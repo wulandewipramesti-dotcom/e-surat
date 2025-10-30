@@ -21,6 +21,8 @@
     <!-- Custom styles for this template-->
     <link href="<?= base_url('sbadmin2/css/sb-admin-2.min.css'); ?>" rel="stylesheet">
     <link href="<?= base_url('sbadmin2/vendor/datatables/dataTables.bootstrap4.min.css'); ?>" rel="stylesheet">
+    
+    
 
     <!-- Custom CSS tambahan -->
     <style>
@@ -270,3 +272,17 @@
     <script src="<?= base_url('sbadmin2/js/sb-admin-2.min.js'); ?>"></script>
     <!-- Page level plugins -->
     <script src="<?= base_url('sbadmin2/vendor/datatables/jquery.dataTables.min.js'); ?>"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+<?php if(session()->getFlashdata('success')): ?>
+Swal.fire({
+    icon: 'success',
+    title: 'Sukses!',
+    text: '<?= session()->getFlashdata('success') ?>',
+    timer: 2000,
+    showConfirmButton: false
+});
+<?php endif; ?>
+</script>

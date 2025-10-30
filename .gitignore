@@ -1,1 +1,19 @@
+# Abaikan file log, cache, dan session
 writable/logs/
+writable/cache/
+writable/session/
+writable/uploads/
+
+# File environment
+.env
+
+# Vendor (composer dependencies)
+vendor/
+
+# File sistem editor
+.DS_Store
+Thumbs.db
+
+# Pengaturan IDE
+.vscode/
+.idea/

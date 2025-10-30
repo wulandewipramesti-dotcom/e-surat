@@ -6,13 +6,11 @@ use App\Models\UserModel;
 
 class Login extends BaseController
 {
-    // Halaman login
     public function index()
     {
         return view('auth/login');
     }
 
-    // Proses login
     public function LoginProses()
     {
         $session = session();
@@ -21,34 +19,39 @@ class Login extends BaseController
         $email = trim($this->request->getPost('email'));
         $password = trim($this->request->getPost('password'));
 
-        // Ambil user berdasarkan email
         $user = $userModel->where('email', $email)->first();
 
         if (!$user) {
-            $session->setFlashdata('error', 'Email tidak ditemukan!');
-            return redirect()->back();
+            $session->setFlashdata('error', 'Email atau password salah');
+            return redirect()->to(route_to('login'));
         }
 
-        // Verifikasi password
-        if (!password_verify($password, $user['password'])) {
-            $session->setFlashdata('error', 'Password salah!');
-            return redirect()->back();
+        $hashFromDb = $user['password'];
+
+        // Cek password (plain atau hash)
+        if ($hashFromDb === $password || password_verify($password, $hashFromDb)) {
+            // Login berhasil
+            $session->regenerate();
+            $session->set([
+            'logged_in' => true,
+            'id'        => $user['id'],  // tambahkan ini
+            'nama'      => $user['name'],
+            'role'      => $user['role'] ?? 'admin',
+]);
+
+
+            // Jika password masih plain, otomatis hash dan simpan
+            if ($hashFromDb === $password) {
+                $userModel->update($user['id'], ['password' => password_hash($password, PASSWORD_DEFAULT)]);
+            }
+
+            return redirect()->to(route_to('home'));
+        } else {
+            $session->setFlashdata('error', 'Email atau password salah');
+            return redirect()->to(route_to('login'));
         }
-
-        // Simpan data user ke session
-        $session->set([
-            'id'        => $user['id'],
-            'email'     => $user['email'],
-            'nama'      => $user['nama'],
-            'role'      => $user['role'],
-            'logged_in' => true
-        ]);
-
-        // Redirect ke home
-        return redirect()->to(route_to('home'));
     }
 
-    // Logout
     public function logout()
     {
         session()->destroy();
