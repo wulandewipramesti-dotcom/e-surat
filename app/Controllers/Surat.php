@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\SuratModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Surat extends BaseController
 {
@@ -13,80 +14,78 @@ class Surat extends BaseController
         $this->suratModel = new SuratModel();
     }
 
-    // READ
+    // READ (List data surat)
     public function index()
     {
         $data = [
-            'title' => 'Data Surat Keterangan Kuliah',
+            'title'  => 'Data Surat Keterangan Kuliah',
             'surats' => $this->suratModel->findAll()
         ];
 
         return view('mahasiswa/surat/index', $data);
     }
 
-    // CREATE FORM
+    // FORM CREATE
     public function create()
     {
         $data = [
-            'title' => 'Tambah Surat'
+            'title' => 'Tambah Surat Keterangan'
         ];
 
         return view('mahasiswa/surat/create', $data);
     }
 
-   // STORE
-public function store()
-{
-    $this->suratModel->insert([
-        'semester' => $this->request->getPost('semester'),
-        'tahun_ajaran' => $this->request->getPost('tahun_ajaran'),
-        'nama_orangtua' => $this->request->getPost('nama_orangtua'),
-        'pangkat' => $this->request->getPost('pangkat'),
-        'status' => 'pending'
-    ]);
+    // STORE DATA BARU
+    public function store()
+    {
+        $this->suratModel->insert([
+            'semester'      => $this->request->getPost('semester'),
+            'tahun_ajaran'  => $this->request->getPost('tahun_ajaran'),
+            'nama_orangtua' => $this->request->getPost('nama_orangtua'),
+            'pangkat'       => $this->request->getPost('pangkat'),
+            'status'        => 'pending',
+        ]);
 
-    session()->setFlashdata('success', 'Data berhasil ditambahkan!');
-    return redirect()->to('/surat');
-}
-
-// EDIT FORM
-public function edit($id)
-{
-    $surat = $this->suratModel->find($id);
-
-    if (!$surat) {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Surat dengan ID $id tidak ditemukan");
+        session()->setFlashdata('success', 'Data berhasil ditambahkan!');
+        return redirect()->to('/surat');
     }
 
-    $data = [
-        'title' => 'Edit Surat',
-        'surat' => $surat
-    ];
+    // FORM EDIT
+    public function edit($id)
+    {
+        $surat = $this->suratModel->find($id);
 
-    return view('mahasiswa/surat/edit', $data);
-}
+        if (!$surat) {
+            throw PageNotFoundException::forPageNotFound("Surat dengan ID $id tidak ditemukan");
+        }
 
+        $data = [
+            'title' => 'Edit Surat',
+            'surat' => $surat
+        ];
 
-// UPDATE
-public function update($id)
-{
-    $this->suratModel->update($id, [
-        'nama_orangtua' => $this->request->getPost('nama_orangtua'),
-        'pangkat' => $this->request->getPost('pangkat'),
-        'semester' => $this->request->getPost('semester'),
-        'tahun_ajaran' => $this->request->getPost('tahun_ajaran'),
-    ]);
+        return view('mahasiswa/surat/edit', $data);
+    }
 
-    session()->setFlashdata('success', 'Data berhasil diperbarui!');
-    return redirect()->to('/surat');
-}
+    // UPDATE DATA
+    public function update($id)
+    {
+        $this->suratModel->update($id, [
+            'nama_orangtua' => $this->request->getPost('nama_orangtua'),
+            'pangkat'       => $this->request->getPost('pangkat'),
+            'semester'      => $this->request->getPost('semester'),
+            'tahun_ajaran'  => $this->request->getPost('tahun_ajaran'),
+        ]);
 
-// DELETE
-public function delete($id)
-{
-    $this->suratModel->delete($id);
-    session()->setFlashdata('success', 'Data berhasil dihapus!');
-    return redirect()->to('/surat');
-}
+        session()->setFlashdata('success', 'Data berhasil diperbarui!');
+        return redirect()->to('/surat');
+    }
 
+    // DELETE DATA
+    public function delete($id)
+    {
+        $this->suratModel->delete($id);
+        session()->setFlashdata('success', 'Data berhasil dihapus!');
+        return redirect()->to('/surat');
+    }
 }

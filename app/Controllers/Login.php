@@ -8,6 +8,7 @@ class Login extends BaseController
 {
     public function index()
     {
+        // Menampilkan halaman login
         return view('auth/login');
     }
 
@@ -28,24 +29,31 @@ class Login extends BaseController
 
         $hashFromDb = $user['password'];
 
-        // Cek password (plain atau hash)
+        // cek password (plain atau hash)
         if ($hashFromDb === $password || password_verify($password, $hashFromDb)) {
-            // Login berhasil
+            // regenerasi session ID agar aman
             $session->regenerate();
             $session->set([
-            'logged_in' => true,
-            'id'        => $user['id'],  // tambahkan ini
-            'nama'      => $user['name'],
-            'role'      => $user['role'] ?? 'admin',
-]);
+                'logged_in' => true,
+                'id'        => $user['id'],
+                'nama'      => $user['nama'],
+                'email'     => $user['email'],
+                'role'      => $user['role'] ?? 'mahasiswa', // default mahasiswa
+            ]);
 
-
-            // Jika password masih plain, otomatis hash dan simpan
+            // Jika password masih plain, auto-hash dan update
             if ($hashFromDb === $password) {
-                $userModel->update($user['id'], ['password' => password_hash($password, PASSWORD_DEFAULT)]);
+                $userModel->update($user['id'], [
+                    'password' => password_hash($password, PASSWORD_DEFAULT)
+                ]);
             }
 
-            return redirect()->to(route_to('home'));
+            // Redirect berdasarkan role
+            if ($user['role'] === 'admin') {
+                return redirect()->to('/admin/user'); // folder admin/user/index.php
+            } else {
+                return redirect()->to('/mahasiswa/surat'); // folder mahasiswa/surat/index.php
+            }
         } else {
             $session->setFlashdata('error', 'Email atau password salah');
             return redirect()->to(route_to('login'));
