@@ -66,14 +66,7 @@ class Filters extends BaseFilters
     public array $methods = [];
 
     /**
-     * Filter berdasarkan URI (misal hanya aktif di route tertentu)
+     * Filter berdasarkan URI (Tidak digunakan, agar tidak bentrok dengan Routes.php)
      */
-    public array $filters = [
-        'auth' => [
-            'before' => [
-                'admin/*',
-                'mahasiswa/*',
-            ],
-        ],
-    ];
+    public array $filters = []; // <--- PASTIKAN BLOCK INI KOSONG!
 }
