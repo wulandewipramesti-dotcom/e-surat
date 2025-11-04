@@ -42,7 +42,7 @@ class Login extends BaseController
 
         // Redirect berdasarkan role
         if ($user['role'] === 'admin') {
-            return redirect()->to(base_url('user')); // Controller User
+            return redirect()->to(base_url('admin/user/index.php')); // Controller User
         } elseif ($user['role'] === 'mahasiswa') {
             return redirect()->to(base_url('surat')); // Controller Surat
         }
