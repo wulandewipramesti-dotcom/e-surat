@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Controllers\Admin;
-
-use App\Controllers\BaseController;
-use App\Models\UserModel;
+namespace App\Controllers;
 
 class User extends BaseController
 {
     public function index()
     {
-        $userModel = new UserModel();
-        $data['users'] = $userModel->findAll();
-        return view('admin/user/index', $data);
+        $data = [
+            'title' => 'Data User' // bisa kamu ubah sesuai kebutuhan
+        ];
+        return view('admin/index', $data);
     }
 }

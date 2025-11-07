@@ -37,12 +37,15 @@
                                 </div>
 
                                 <?php if(session()->getFlashdata('error')): ?>
-                                    <div class="alert alert-danger">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                         <?= session()->getFlashdata('error') ?>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                 <?php endif; ?>
 
-                                <form class="user" method="post" action="<?= route_to('LoginProses') ?>">
+                                <form class="user" method="post" action="<?= base_url('login/auth') ?>">
                                     <?= csrf_field() ?>
                                     <div class="form-group">
                                         <input type="email" class="form-control form-control-user"
@@ -56,6 +59,7 @@
                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                         Login
                                     </button>
+
                                     <a href="#" class="btn btn-google btn-user btn-block">
                                         <i class="fab fa-google fa-fw"></i> Login with Google
                                     </a>
@@ -65,7 +69,7 @@
                                 <div class="text-center">
                                     <small>
                                         Kembali ke beranda
-                                        <a href="<?= route_to('landing'); ?>">Klik di sini</a>
+                                        <a href="<?= base_url('/') ?>">Klik di sini</a>
                                     </small>
                                 </div>
                             </div>

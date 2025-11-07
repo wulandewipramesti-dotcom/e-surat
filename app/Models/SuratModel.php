@@ -6,14 +6,13 @@ use CodeIgniter\Model;
 
 class SuratModel extends Model
 {
-    protected $table = 'surat_keterangan';
+    protected $table      = 'surat'; // pastikan tabel ini ada di DB
     protected $primaryKey = 'id';
-
     protected $allowedFields = [
-        'semester',
-        'tahun_ajaran',
         'nama_orangtua',
         'pangkat',
+        'semester',
+        'tahun_ajaran',
         'status'
     ];
 }

@@ -8,46 +8,55 @@ class Login extends BaseController
 {
     public function index()
     {
+        helper(['form']);
         return view('auth/login');
     }
 
-    public function LoginProses()
+    public function loginProses()
     {
         $session = session();
         $userModel = new UserModel();
 
-        $email = trim($this->request->getPost('email'));
-        $password = trim($this->request->getPost('password'));
+        $email = $this->request->getVar('email');
+        $password = $this->request->getVar('password');
 
-        // Cari user berdasarkan email
+        // Cek user berdasarkan email
         $user = $userModel->where('email', $email)->first();
 
-        if (!$user) {
-            return redirect()->to('/login')->with('error', 'User tidak ditemukan');
+        if ($user) {
+            $pass = $user['password'];
+            $authenticatePassword = password_verify($password, $pass);
+
+            if ($authenticatePassword) {
+                $ses_data = [
+                    'id'        => $user['id'],
+                    'nama'      => $user['nama'],
+                    'email'     => $user['email'],
+                    'role'      => $user['role'],
+                    'logged_in' => TRUE
+                ];
+                $session->set($ses_data);
+                echo "Login berhasil sebagai: " . $user['role'];
+                exit;
+                // Redirect berdasarkan role
+                if ($user['role'] === 'admin') {
+                    return redirect()->to(base_url('admin'));
+                } elseif ($user['role'] === 'mahasiswa') {
+                    return redirect()->to(base_url('surat'));
+                } else {
+                    $session->setFlashdata('error', 'Role tidak dikenali');
+                    return redirect()->to('/login');
+                }
+
+            } else {
+                $session->setFlashdata('error', 'Password salah');
+                return redirect()->to('/login');
+            }
+
+        } else {
+            $session->setFlashdata('error', 'Email tidak ditemukan');
+            return redirect()->to('/login');
         }
-
-        // Verifikasi password
-        if (!password_verify($password, $user['password'])) {
-            return redirect()->to('/login')->with('error', 'Password salah');
-        }
-
-        // Set session
-        $sessionData = [
-            'user_id' => $user['id'],
-            'email'   => $user['email'],
-            'role'    => $user['role'], // admin / mahasiswa
-            'logged_in' => true,
-        ];
-        $session->set($sessionData);
-
-        // Redirect berdasarkan role
-        if ($user['role'] === 'admin') {
-            return redirect()->to(base_url('admin/user/index.php')); // Controller User
-        } elseif ($user['role'] === 'mahasiswa') {
-            return redirect()->to(base_url('surat')); // Controller Surat
-        }
-
-        return redirect()->to('/login')->with('error', 'Role tidak dikenali');
     }
 
     public function logout()
