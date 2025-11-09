@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class SuratModel extends Model
 {
-    protected $table      = 'surat'; // pastikan tabel ini ada di DB
+    protected $table      = 'surat_keterangan'; // pastikan tabel ini ada di DB
     protected $primaryKey = 'id';
     protected $allowedFields = [
         'nama_orangtua',
