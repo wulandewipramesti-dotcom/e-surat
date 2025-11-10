@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/app') ?>
+<?= $this->extend('layouts/sidebar_mahasiswa') ?>
 <?= $this->section('content') ?>
 
 <h1 class="h3 mb-4 text-gray-800">
@@ -21,7 +21,7 @@
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered table-striped text-center">
-                <thead class="bg-primary text-white">
+                <thead style="color: black;">
                     <tr>
                         <th>No</th>
                         <th>Semester</th>
@@ -29,7 +29,7 @@
                         <th>Nama Orang Tua</th>
                         <th>Pangkat</th>
                         <th>Status</th>
-                        <th>Aksi</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
@@ -46,6 +46,11 @@
                                 <span class="badge badge-warning"><?= esc($row['status']) ?></span>
                             </td>
                             <td>
+                                 <?php if ($row['status'] == 'Pending' || $row['status'] == 'Diproses'): ?>
+                                    <a href="<?= route_to('surat.view', $row['id']) ?>" class="btn btn-info btn-sm" title="Lihat">
+                                        <i class="fas fa-eye"></i>
+                                     </a>
+                                <?php endif; ?>
                                 <a href="<?= route_to('surat.edit', $row['id']) ?>" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
@@ -53,6 +58,7 @@
                                     onclick="return confirm('Yakin ingin menghapus data ini?')">
                                     <i class="fas fa-trash"></i>
                                 </a>
+                               
                             </td>
                         </tr>
                         <?php endforeach; ?>

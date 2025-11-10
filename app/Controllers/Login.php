@@ -33,13 +33,20 @@ class Login extends BaseController
         ];
         $session->set($sessionData);
 
-        return redirect()->to('/mahasiswa/index'); // Redirect ke halaman dashboard/admin
+          if ($user['role'] === 'admin') {
+            return redirect()->to('/admin'); // ganti sesuai route admin
+        } elseif ($user['role'] === 'mahasiswa') {
+            return redirect()->to('/dashboard_mhs'); // ganti sesuai route mahasiswa
+        } else {
+            // default jika role tidak dikenal
+            return redirect()->to('/login')->with('error', 'Role tidak dikenali.');
+        }
+
     } else {
         $session->setFlashdata('error', 'Email atau password salah!');
         return redirect()->to('/login');
     }
 }
-
 
     public function logout()
     {

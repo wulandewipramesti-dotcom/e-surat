@@ -18,14 +18,16 @@ $routes->get('logout', 'Login::logout');
 // ============================
 // ADMIN
 // ============================
-$routes->get('admin', 'User::index');
+$routes->get('admin', 'Home::index');  
+$routes->get('data-user', 'User::index');
  // Halaman user management admin
 
 // ============================
 // MAHASISWA
 // Dashboard admin/mahasiswa
-$routes->get('admin', 'Home::index');      // Home/dashboard
-$routes->get('mahasiswa/index', 'Surat::index'); // Halaman surat mahasiswa
+
+$routes->get('dashboard_mhs', 'Mahasiswa::dashboard');// Home/dashboard
+$routes->get('mahasiswa/surat', 'Surat::index'); // Halaman surat mahasiswa
 
 // CRUD Surat (tanpa filter Auth)
 $routes->group('surat', function($routes) {

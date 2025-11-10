@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/sidebar_admin') ?>
+<?= $this->extend('layouts/sidebar_mahasiswa') ?>
 
 <?= $this->section('content') ?>
     <!-- Page Heading -->
@@ -13,7 +13,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                               Surat Masuk</div>
+                                                Surat Keterangan Kuliah</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">4</div>
                                         </div>
                                         <div class="col-auto">
@@ -23,22 +23,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                               Surat Keluar</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">4</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-black-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
     </div>
-    
 <?= $this->endSection() ?>
  

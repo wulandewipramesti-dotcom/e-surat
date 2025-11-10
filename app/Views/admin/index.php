@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/app') ?>
+<?= $this->extend('layouts/sidebar_admin') ?>
 
 
 <?= $this->section('content') ?>
@@ -17,7 +17,7 @@
         <div class="card-body">
             <div class="table-responsive">
                                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
-                <thead class="bg-primary text-white text-center">
+                <thead style="color: black";>
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
@@ -39,6 +39,12 @@
                             </span>
                         </td>
                         <td>
+                             <!-- Tombol untuk melihat detail request -->
+                            <a href="" 
+                                 class="btn btn-warning btn-sm" 
+                                 data-toggle="tooltip" title="Lihat Request">
+                                 <i class="fas fa-exclamation-circle"></i>
+                            </a>
                              <button class="btn btn-success btn-sm" data-toggle="tooltip" title="Setujui">
                                 <i class="fas fa-check"></i> Setujui
                             </button>
@@ -58,6 +64,11 @@
                             </span>
                         </td>
                         <td>
+                            <a href="" 
+                                 class="btn btn-warning btn-sm" 
+                                 data-toggle="tooltip" title="Lihat Request">
+                                 <i class="fas fa-exclamation-circle"></i>
+                            </a>
                             <button class="btn btn-success btn-sm" data-toggle="tooltip" title="Setujui">
                                 <i class="fas fa-check"></i> Setujui
                             </button>

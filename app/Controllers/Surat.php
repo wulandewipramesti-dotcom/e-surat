@@ -21,7 +21,7 @@ class Surat extends BaseController
             'surats' => $this->suratModel->findAll()
         ];
 
-        return view('mahasiswa/index', $data);
+        return view('mahasiswa/surat/index', $data);
     }
 
     public function create()
@@ -30,7 +30,7 @@ class Surat extends BaseController
             'title' => 'Tambah Surat Keterangan Aktif Kuliah'
         ];
 
-        return view('mahasiswa/create', $data);
+        return view('mahasiswa/surat/create', $data);
     }
 
     public function store()
@@ -40,7 +40,7 @@ class Surat extends BaseController
             'pangkat'       => $this->request->getPost('pangkat'),
             'semester'      => $this->request->getPost('semester'),
             'tahun_ajaran'  => $this->request->getPost('tahun_ajaran'),
-            'status'        => 'Menunggu',
+            'status'        => 'Pending',
         ]);
 
         return redirect()->to(route_to('surat.index'))->with('success', 'Data berhasil ditambahkan.');
@@ -59,7 +59,7 @@ class Surat extends BaseController
             'surat' => $surat
         ];
 
-        return view('mahasiswa/edit', $data);
+        return view('mahasiswa/surat/edit', $data);
     }
 
     public function update($id)
