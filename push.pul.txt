@@ -6,3 +6,11 @@ After Create
 - git add .
 - git commit -m "OPSIONAL"
 -git push origin main
+
+password admin
+admin@example.com
+admin123
+
+password mahasiswa
+mhs1@example.com 
+mahasiswa123
