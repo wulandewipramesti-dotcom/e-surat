@@ -84,7 +84,7 @@
                         <td>Tiger@bunga</td>
                         <td>Surat Meminjam Ruangan</td>
                         <td>
-                            <span class="badge badge-danger badge-pill">
+                            <span class="badge badge-warning badge-pill">
                                Diproses
                             </span>
                         </td>

@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/app') ?>
+<?= $this->extend('layouts/sidebar_mahasiswa') ?>
 <?= $this->section('content') ?>
 
 <div class="d-flex justify-content-center mt-4">
