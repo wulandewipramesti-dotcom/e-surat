@@ -115,13 +115,13 @@
                     <div class="collapse-inner">
                         <ul class="list-unstyled mb-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><span class="nav-text">Surat Izin Kuliah</span></a>
+                                <a class="nav-link" href="<?= base_url('mahasiswa/sik') ?>"><span class="nav-text">Surat Izin Kuliah</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><span class="nav-text">Surat Izin Meminjam Ruangan</span></a>
+                                <a class="nav-link" href="<?= base_url('mahasiswa/simr') ?>"><span class="nav-text">Surat Izin Meminjam Ruangan</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><span class="nav-text">Surat Izin Cuti</span></a>
+                                <a class="nav-link" href="<?= base_url('mahasiswa/sic') ?>"><span class="nav-text">Surat Izin Cuti</span></a>
                             </li>
                         </ul>
                     </div>
@@ -139,13 +139,13 @@
                     <div class="collapse-inner">
                         <ul class="list-unstyled mb-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><span class="nav-text">Surat Permohonan Magang</span></a>
+                                <a class="nav-link" href="<?= base_url('mahasiswa/spm') ?>"><span class="nav-text">Surat Permohonan Magang</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><span class="nav-text">Surat Izin Survey Matakuliah</span></a>
+                                <a class="nav-link" href="<?= base_url('mahasiswa/sism') ?>"><span class="nav-text">Surat Izin Survey Matakuliah</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= base_url('mahasiswa/surat') ?>"><span class="nav-text">Surat Keterangan Aktif Kuliah</span></a>
+                                <a class="nav-link" href="<?= base_url('mahasiswa/skak') ?>"><span class="nav-text">Surat Keterangan Aktif Kuliah</span></a>
                             </li>
                         </ul>
                     </div>

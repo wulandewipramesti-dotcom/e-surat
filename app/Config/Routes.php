@@ -6,36 +6,41 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// $routes->get('/', 'Home::index');
 // Halaman login utama
 $routes->get('/', 'Landing::index'); // Landing page
-$routes->get('login', 'Login::index'); // Halaman login
+$routes->get('login', 'Login::index'); 
 $routes->post('login/auth', 'Login::loginProses');
 $routes->get('logout', 'Login::logout');
-
-
 
 // ============================
 // ADMIN
 // ============================
 $routes->get('admin', 'Home::index');  
-$routes->get('data-user', 'User::index');
- // Halaman user management admin
+$routes->get('data-user', 'User::index'); // Halaman user management admin
 
 // ============================
 // MAHASISWA
-// Dashboard admin/mahasiswa
+// ============================
 
-$routes->get('dashboard_mhs', 'Mahasiswa::dashboard');// Home/dashboard
-$routes->get('mahasiswa/surat', 'Surat::index'); // Halaman surat mahasiswa
+// Dashboard mahasiswa
+$routes->get('dashboard_mhs', 'Mahasiswa::dashboard'); 
 
-// CRUD Surat (tanpa filter Auth)
-$routes->group('surat', function($routes) {
-    $routes->get('/', 'Surat::index', ['as' => 'surat.index']);
-    $routes->get('create', 'Surat::create', ['as' => 'surat.create']);
-    $routes->post('store', 'Surat::store', ['as' => 'surat.store']);
-    $routes->get('edit/(:num)', 'Surat::edit/$1', ['as' => 'surat.edit']);
-    $routes->put('update/(:num)', 'Surat::update/$1', ['as' => 'surat.update']);
-    $routes->get('delete/(:num)', 'Surat::delete/$1', ['as' => 'surat.delete']);
-});
+// ============================
+// CRUD Surat Mahasiswa
+// ============================
 
+// Semua folder mahasiswa: skak, sic, sik, simr, sism, spm
+$folders = ['skak', 'sic', 'sik', 'simr', 'sism', 'spm'];
+
+foreach ($folders as $folder) {
+    $ucFolder = ucfirst($folder); // Controller harus huruf besar
+
+    $routes->group("mahasiswa/$folder", function($routes) use ($ucFolder, $folder) {
+        $routes->get('/', "Mahasiswa\\$ucFolder::index", ['as' => "$folder.index"]);
+        $routes->get('create', "Mahasiswa\\$ucFolder::create", ['as' => "$folder.create"]);
+        $routes->post('store', "Mahasiswa\\$ucFolder::store", ['as' => "$folder.store"]);
+        $routes->get('edit/(:num)', "Mahasiswa\\$ucFolder::edit/$1", ['as' => "$folder.edit"]);
+        $routes->post('update/(:num)', "Mahasiswa\\$ucFolder::update/$1", ['as' => "$folder.update"]); // POST + _method=PUT
+        $routes->get('delete/(:num)', "Mahasiswa\\$ucFolder::delete/$1", ['as' => "$folder.delete"]);
+    });
+}
