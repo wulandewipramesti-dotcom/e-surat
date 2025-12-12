@@ -1,52 +1,47 @@
-<?= $this->extend('layouts/app') ?>
+<?= $this->extend('layouts/sidebar_mahasiswa') ?>
 <?= $this->section('content') ?>
 
-<div class="d-flex justify-content-center mt-4">
-<div class="card shadow-lg" style="width: 80%; border-radius: 12px;">
-    
-    <div class="card-header bg-white">
-        <h4 class="text-dark font-weight-bold mb-0">Tambah Surat Keterangan Aktif Kuliah</h4>
-    </div>
+<h3 class="mb-4 text-dark"><?= esc($title) ?></h3>
 
+<div class="card shadow">
     <div class="card-body">
-        <form action="<?= route_to('skak.store') ?>" method="post">
+
+        <form action="<?= route_to('spm.store') ?>" method="post">
             <?= csrf_field() ?>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Nama Orang Tua *</label>
-                    <input type="text" name="nama_orangtua" class="form-control" required placeholder="Masukkan nama orang tua">
+                    <label>Nama *</label>
+                    <input type="text" name="nama" class="form-control" required>
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Pangkat / Golongan</label>
-                    <input type="text" name="pangkat" class="form-control" placeholder="Masukkan pangkat/golongan">
+                    <label>NIM *</label>
+                    <input type="text" name="nim" class="form-control" required>
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Semester *</label>
-                    <select name="semester" class="form-control" required>
-                        <option value="">-- Pilih Semester --</option>
-                        <option value="Ganjil">Ganjil</option>
-                        <option value="Genap">Genap</option>
-                    </select>
+                    <label>Jurusan *</label>
+                    <input type="text" name="jurusan" class="form-control" required>
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Tahun Ajaran *</label>
-                    <input type="text" name="tahun_ajaran" class="form-control" required placeholder="2024/2025">
+                    <label>Tempat Magang *</label>
+                    <input type="text" name="tempat_magang" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Tanggal Pengajuan *</label>
+                    <input type="date" name="tanggal_pengajuan" class="form-control" required>
                 </div>
             </div>
 
-            <div class="text-right mt-3">
-                <a href="<?= route_to('skak.index') ?>" class="btn btn-secondary">Batal</a>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
+            <button class="btn btn-primary">Simpan</button>
+            <a href="<?= route_to('spm.index') ?>" class="btn btn-secondary">Batal</a>
 
         </form>
-    </div>
 
-</div>
+    </div>
 </div>
 
 <?= $this->endSection() ?>
