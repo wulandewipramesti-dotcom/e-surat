@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Controllers\Mahasiswa;
+
 use App\Controllers\BaseController;
-
-
 use App\Models\SuratModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Skak extends BaseController
 {
@@ -15,63 +15,112 @@ class Skak extends BaseController
         $this->suratModel = new SuratModel();
     }
 
+    // =========================
+    // INDEX
+    // =========================
     public function index()
     {
-        $data = [
+        return view('mahasiswa/skak/index', [
             'title'  => 'Data Surat Keterangan Aktif Kuliah',
-            'surats' => $this->suratModel->findAll()
-        ];
-
-        return view('mahasiswa/skak/index', $data);
+            'surats' => $this->suratModel
+                ->where('user_id', session()->get('user_id'))
+                ->orderBy('created_at', 'DESC')
+                ->findAll()
+        ]);
     }
 
+    // =========================
+    // CREATE
+    // =========================
     public function create()
     {
-        $data = ['title' => 'Tambah Surat Keterangan Aktif Kuliah'];
-        return view('mahasiswa/skak/create', $data);
+        return view('mahasiswa/skak/create', [
+            'title' => 'Tambah Surat Keterangan Aktif Kuliah'
+        ]);
     }
 
+    // =========================
+    // STORE
+    // =========================
     public function store()
     {
-        $this->suratModel->insert([
+        $dataSurat = [
             'nama_orangtua' => $this->request->getPost('nama_orangtua'),
             'pangkat'       => $this->request->getPost('pangkat'),
             'semester'      => $this->request->getPost('semester'),
             'tahun_ajaran'  => $this->request->getPost('tahun_ajaran'),
-            'status'        => 'Pending',
-        ]);
-
-        return redirect()->to(route_to('skak.index'))->with('success', 'Data berhasil ditambahkan.');
-    }
-
-    public function edit($id)
-    {
-        $surat = $this->suratModel->find($id);
-        if (!$surat) throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan');
-
-        $data = [
-            'title' => 'Edit Surat Keterangan Aktif Kuliah',
-            'surat' => $surat
         ];
 
-        return view('mahasiswa/skak/edit', $data);
-    }
-
-    public function update($id)
-    {
-        $this->suratModel->update($id, [
-            'nama_orangtua' => $this->request->getPost('nama_orangtua'),
-            'pangkat'       => $this->request->getPost('pangkat'),
-            'semester'      => $this->request->getPost('semester'),
-            'tahun_ajaran'  => $this->request->getPost('tahun_ajaran'),
+        $this->suratModel->insert([
+            'user_id'     => session()->get('user_id'),
+            'jenis_surat' => 'skak',
+            'data_surat'  => json_encode($dataSurat),
+            'status'      => 'pending'
         ]);
 
-        return redirect()->to(route_to('skak.index'))->with('success', 'Data berhasil diperbarui.');
+        return redirect()->to(route_to('skak.index'))
+            ->with('success', 'Surat berhasil dikirim ke admin');
     }
 
+    // =========================
+    // EDIT
+    // =========================
+   public function edit($id)
+{
+    $surat = $this->suratModel->find($id);
+
+    if (!$surat) {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
+    }
+
+    // Decode JSON data_surat
+    $dataSurat = json_decode($surat['data_surat'], true) ?? [];
+
+    return view('mahasiswa/skak/edit', [
+        'title' => 'Edit Surat Keterangan Aktif Kuliah',
+        'surat' => $surat,
+        'data'  => $dataSurat
+    ]);
+}
+
+public function update($id)
+{
+    $dataSurat = [
+        'nama_orangtua' => $this->request->getPost('nama_orangtua'),
+        'pangkat'       => $this->request->getPost('pangkat'),
+        'semester'      => $this->request->getPost('semester'),
+        'tahun_ajaran'  => $this->request->getPost('tahun_ajaran'),
+    ];
+
+    $this->suratModel->update($id, [
+        'data_surat' => json_encode($dataSurat),
+        'status'     => 'pending' // reset ke pending setelah edit
+    ]);
+
+    return redirect()
+        ->to(route_to('skak.index'))
+        ->with('success', 'Surat berhasil diperbarui');
+}
+
+    // =========================
+    // DELETE
+    // =========================
     public function delete($id)
     {
+        $surat = $this->suratModel->find($id);
+
+        if (!$surat) {
+            throw new PageNotFoundException('Surat tidak ditemukan');
+        }
+
+        if ($surat['status'] !== 'pending') {
+            return redirect()->to(route_to('skak.index'))
+                ->with('error', 'Surat tidak dapat dihapus');
+        }
+
         $this->suratModel->delete($id);
-        return redirect()->to(route_to('skak.index'))->with('success', 'Data berhasil dihapus.');
+
+        return redirect()->to(route_to('skak.index'))
+            ->with('success', 'Surat berhasil dihapus');
     }
 }

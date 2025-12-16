@@ -103,9 +103,16 @@
             <hr class="sidebar-divider">
 
             <div class="sidebar-heading">Menu Admin</div>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('admin/users') ?>">
+                    <i class="fas fa-inbox"></i>
+                    <span>Data Users</span>
+                </a>
+            </li>
+
 
             <li class="nav-item">
-                <a class="nav-link" href="<?= base_url('data-user') ?>">
+                <a class="nav-link" href="<?= base_url('admin/surat') ?>">
                     <i class="fas fa-inbox"></i>
                     <span>Surat Masuk</span>
                 </a>

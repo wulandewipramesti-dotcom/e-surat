@@ -9,3 +9,9 @@ echo "Mahasiswa password: $mahasiswaPassword\n";
 echo "Mahasiswa hash: $mahasiswaHash\n";
 ?>
 
+<?php
+
+$password = 'budi123'; // ganti password kamu
+$hash = password_hash($password, PASSWORD_DEFAULT);
+
+echo $hash;

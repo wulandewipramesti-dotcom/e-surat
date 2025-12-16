@@ -15,6 +15,29 @@ $routes->get('logout', 'Login::logout');
 // ============================
 // ADMIN
 // ============================
+// ADMIN - SURAT MAHASISWA
+// ============================
+
+$routes->group('admin/surat', function($routes) {
+    $routes->get('/', 'Admin\Surat::index');
+    $routes->get('approve/(:num)', 'Admin\Surat::approve/$1');
+    $routes->get('reject/(:num)', 'Admin\Surat::reject/$1');
+    $routes->get('detail/(:num)', 'Admin\Surat::detail/$1'); 
+    $routes->post('upload/(:num)', 'Admin\Surat::upload/$1');
+});
+
+$routes->group('admin/users', function ($routes) {
+    $routes->get('/', 'User::index');
+    $routes->get('create', 'User::create');
+    $routes->post('store', 'User::store');
+    $routes->get('edit/(:num)', 'User::edit/$1');
+    $routes->post('update/(:num)', 'User::update/$1');
+    $routes->get('delete/(:num)', 'User::delete/$1');
+});
+
+
+
+// ============================
 $routes->get('admin', 'Home::index');  
 $routes->get('data-user', 'User::index'); // Halaman user management admin
 
