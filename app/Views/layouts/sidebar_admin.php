@@ -100,15 +100,17 @@
                 </a>
             </li>
 
-            <hr class="sidebar-divider">
-
-            <div class="sidebar-heading">Menu Admin</div>
-            <li class="nav-item">
+             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('admin/users') ?>">
-                    <i class="fas fa-inbox"></i>
+                    <i class="fas fa-user"></i>
                     <span>Data Users</span>
                 </a>
             </li>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">Menu Admin</div>
+           
 
 
             <li class="nav-item">
@@ -119,7 +121,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="<?= base_url('admin/suratKeluar') ?>">
                     <i class="fas fa-share-square"></i>
                     <span>Surat Keluar</span>
                 </a>

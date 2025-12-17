@@ -27,6 +27,8 @@ class Login extends BaseController
         $sessionData = [
             'user_id' => $user['id'],
             'nama'    => $user['nama'],
+            'nim'       => $user['nim'],      // <-- tambahkan ini
+            'jurusan'   => $user['jurusan'],
             'email'   => $user['email'],
             'role'    => $user['role'],
             'isLoggedIn' => true

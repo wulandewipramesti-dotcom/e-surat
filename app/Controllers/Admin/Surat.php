@@ -4,14 +4,17 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\SuratModel;
+use App\Models\UserModel;
 
 class Surat extends BaseController
 {
     protected $suratModel;
+     protected $UserModel;
 
     public function __construct()
     {
         $this->suratModel = new SuratModel();
+        $this->UserModel  = new UserModel();
     }
 
     public function index()
@@ -46,22 +49,26 @@ class Surat extends BaseController
             ->with('error', 'Surat ditolak.');
     }
 
-    public function detail($id)
-    {
-        $surat = $this->suratModel->find($id);
+   public function detail($id)
+{
+    $surat = $this->suratModel->find($id);
 
-        if (!$surat) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan');
-        }
-
-        $dataSurat = json_decode($surat['data_surat'], true);
-
-        return view('admin/surat/detail', [
-            'title'     => 'Detail Surat',
-            'surat'     => $surat,
-            'dataSurat' => $dataSurat
-        ]);
+    if (!$surat) {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat tidak ditemukan');
     }
+
+    $dataSurat = json_decode($surat['data_surat'], true);
+
+    // Ambil data user berdasarkan user_id surat
+    $user = $this->UserModel->find($surat['user_id']);
+
+    return view('admin/surat/detail', [
+        'title'     => 'Detail Surat',
+        'surat'     => $surat,
+        'dataSurat' => $dataSurat,
+        'user'      => $user
+    ]);
+}
 
     public function upload($id)
     {

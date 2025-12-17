@@ -3,25 +3,38 @@
 namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
-use App\Models\SismModel;
+use App\Models\SuratModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Sism extends BaseController
 {
-    protected $sism;
+    protected $suratModel;
 
     public function __construct()
     {
-        $this->sism = new SismModel();
+        $this->suratModel = new SuratModel();
     }
 
+    // =========================
+    // INDEX
+    // =========================
     public function index()
     {
+        $surats = $this->suratModel
+            ->where('user_id', session()->get('user_id'))
+            ->where('jenis_surat', 'SISM')
+            ->orderBy('created_at', 'DESC')
+            ->findAll();
+
         return view('mahasiswa/sism/index', [
-            'title'  => 'Surat Izin Survey Matakuliah',
-            'surats' => $this->sism->orderBy('id', 'DESC')->findAll()
+            'title'  => 'Surat Izin Survey Mata Kuliah',
+            'surats' => $surats
         ]);
     }
 
+    // =========================
+    // CREATE
+    // =========================
     public function create()
     {
         return view('mahasiswa/sism/create', [
@@ -29,35 +42,118 @@ class Sism extends BaseController
         ]);
     }
 
+    // =========================
+    // STORE
+    // =========================
     public function store()
     {
-        $this->sism->save($this->request->getPost());
+        $dataSism = [
+            'nama'          => $this->request->getPost('nama'),
+            'nim'           => $this->request->getPost('nim'),
+            'jurusan'       => $this->request->getPost('jurusan'),
+            'kegiatan'      => $this->request->getPost('kegiatan'),
+            'lokasi_survey' => $this->request->getPost('lokasi_survey'),
+            'tanggal'       => $this->request->getPost('tanggal'),
+            'waktu_mulai'   => $this->request->getPost('waktu_mulai'),
+            'waktu_selesai' => $this->request->getPost('waktu_selesai'),
+        ];
+
+        $this->suratModel->insert([
+            'user_id'     => session()->get('user_id'),
+            'jenis_surat' => 'SISM',
+            'data_surat'  => json_encode($dataSism),
+            'status'      => 'pending',
+            'file_surat'  => null
+        ]);
 
         return redirect()->route('sism.index')
-            ->with('success', 'Data berhasil ditambahkan.');
+            ->with('success', 'Surat berhasil dikirim ke admin');
     }
 
+    // =========================
+    // EDIT
+    // =========================
     public function edit($id)
     {
+        $surat = $this->suratModel->find($id);
+        if (!$surat) throw new PageNotFoundException('Surat tidak ditemukan');
+
+        if ($surat['status'] != 'pending') {
+            return redirect()->back()->with('error', 'Surat tidak bisa diedit karena sudah diproses admin.');
+        }
+
+        
+
+        $dataSism = json_decode($surat['data_surat'], true) ?? [];
+
         return view('mahasiswa/sism/edit', [
             'title' => 'Edit Surat Izin Survey',
-            'surat' => $this->sism->find($id)
+            'surat' => $surat,
+            'data'  => $dataSism
         ]);
     }
 
-    public function update($id)
-    {
-        $this->sism->update($id, $this->request->getPost());
+    // =========================
+    // UPDATE
+    // =========================
+   public function update($id)
+{
+    $surat = $this->suratModel->find($id);
+    if (!$surat) return redirect()->back()->with('error', 'Surat tidak ditemukan');
 
-        return redirect()->route('sism.index')
-            ->with('success', 'Data berhasil diupdate.');
+    if ($surat['status'] != 'pending') {
+        return redirect()->back()->with('error', 'Surat tidak bisa diupdate karena sudah diproses admin.');
     }
 
+    // decode JSON
+    $dataSism = json_decode($surat['data_surat'], true) ?? [];
+
+    // update nilai dari POST
+    $dataSism['kegiatan']      = $this->request->getPost('kegiatan');
+    $dataSism['lokasi_survey'] = $this->request->getPost('lokasi_survey');
+    $dataSism['tanggal']       = $this->request->getPost('tanggal');
+    $dataSism['waktu_mulai']   = $this->request->getPost('waktu_mulai');
+    $dataSism['waktu_selesai'] = $this->request->getPost('waktu_selesai');
+
+    // update kembali ke DB
+    $this->suratModel->update($id, [
+        'data_surat' => json_encode($dataSism)
+    ]);
+
+    return redirect()->route('sism.index')
+                     ->with('success', 'Data berhasil diupdate.');
+}
+
+    // =========================
+    // DELETE
+    // =========================
     public function delete($id)
     {
-        $this->sism->delete($id);
+        $surat = $this->suratModel->find($id);
+        if (!$surat) return redirect()->back()->with('error', 'Surat tidak ditemukan');
 
-        return redirect()->route('sism.index')
-            ->with('success', 'Data berhasil dihapus.');
+        if ($surat['status'] != 'pending') {
+            return redirect()->back()->with('error', 'Surat tidak bisa dihapus karena sudah diproses admin.');
+        }
+
+        $this->suratModel->delete($id);
+        return redirect()->route('sism.index')->with('success', 'Surat berhasil dihapus');
+    }
+
+    // =========================
+    // DETAIL
+    // =========================
+    public function detail($id)
+    {
+        $surat = $this->suratModel->find($id);
+        if (!$surat) throw new PageNotFoundException('Surat tidak ditemukan');
+
+        $dataSism = json_decode($surat['data_surat'], true) ?? [];
+
+        return view('mahasiswa/sism/detail', [
+            'title' => 'Detail Surat Izin Survey',
+            'surat' => $surat,
+            'data'  => $dataSism
+        ]);
     }
 }

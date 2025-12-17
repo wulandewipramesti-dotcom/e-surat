@@ -24,7 +24,11 @@ $routes->group('admin/surat', function($routes) {
     $routes->get('reject/(:num)', 'Admin\Surat::reject/$1');
     $routes->get('detail/(:num)', 'Admin\Surat::detail/$1'); 
     $routes->post('upload/(:num)', 'Admin\Surat::upload/$1');
+    
 });
+
+$routes->get('admin/suratKeluar', 'Admin\SuratKeluar::index', ['as' => 'admin.suratKeluar']);
+
 
 $routes->group('admin/users', function ($routes) {
     $routes->get('/', 'User::index');
@@ -65,5 +69,7 @@ foreach ($folders as $folder) {
         $routes->get('edit/(:num)', "Mahasiswa\\$ucFolder::edit/$1", ['as' => "$folder.edit"]);
         $routes->post('update/(:num)', "Mahasiswa\\$ucFolder::update/$1", ['as' => "$folder.update"]); // POST + _method=PUT
         $routes->get('delete/(:num)', "Mahasiswa\\$ucFolder::delete/$1", ['as' => "$folder.delete"]);
+
+        $routes->get('detail/(:num)', "Mahasiswa\\$ucFolder::detail/$1", ['as' => "$folder.detail"]);
     });
 }

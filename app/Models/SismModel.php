@@ -10,7 +10,7 @@ class SismModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'nama', 'nim', 'jurusan', 'kegiatan', 'lokasi_survey',
+        'user_id','nama', 'nim', 'jurusan', 'kegiatan', 'lokasi_survey',
         'tanggal', 'waktu_mulai', 'waktu_selesai', 'status'
     ];
 

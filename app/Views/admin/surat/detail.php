@@ -11,8 +11,12 @@
 
 <table class="table table-bordered">
     <tr>
-        <th>User ID</th>
-        <td><?= esc($surat['user_id']) ?></td>
+        <th>Nama Mahasiswa</th>
+        <td><?= esc($user['nama'] ?? '-') ?></td>
+    </tr>
+    <tr>
+        <th>NIM</th>
+        <td><?= esc($user['nim'] ?? '-') ?></td>
     </tr>
     <tr>
         <th>Jenis Surat</th>
@@ -27,6 +31,7 @@
         <td><?= date('d-m-Y H:i:s', strtotime($surat['created_at'])) ?></td>
     </tr>
 </table>
+
 
 <h4>Data Surat Mahasiswa</h4>
 <table class="table table-bordered">

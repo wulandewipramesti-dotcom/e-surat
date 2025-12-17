@@ -9,7 +9,7 @@ class SpmModel extends Model
     protected $table = 'spm';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'nama', 'nim', 'jurusan', 'tempat_magang',
+        'user_id','nama', 'nim', 'jurusan', 'tempat_magang',
         'tanggal_pengajuan', 'status'
     ];
     protected $useTimestamps = true;
