@@ -57,7 +57,7 @@ $routes->get('dashboard_mhs', 'Mahasiswa::dashboard');
 // ============================
 
 // Semua folder mahasiswa: skak, sic, sik, simr, sism, spm
-$folders = ['skak', 'sic', 'sik', 'simr', 'sism', 'spm'];
+$folders = ['skak', 'sik', 'simr', 'sism', 'spm'];
 
 foreach ($folders as $folder) {
     $ucFolder = ucfirst($folder); // Controller harus huruf besar

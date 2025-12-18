@@ -120,9 +120,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="<?= base_url('mahasiswa/simr') ?>"><span class="nav-text">Surat Izin Meminjam Ruangan</span></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="<?= base_url('mahasiswa/sic') ?>"><span class="nav-text">Surat Izin Cuti</span></a>
-                            </li>
                         </ul>
                     </div>
                 </div>
