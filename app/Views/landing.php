@@ -117,6 +117,21 @@
     <p>Manage your campus letters digitally with ease and speed.</p>
     <a href="/login" class="btn-get-started">Get Started</a>
 </section>
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<?php if(session()->getFlashdata('success')): ?>
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Berhasil',
+    text: '<?= session()->getFlashdata('success') ?>',
+    timer: 2000,
+    showConfirmButton: false
+});
+</script>
+<?php endif; ?>
+
 
 </body>
 </html>

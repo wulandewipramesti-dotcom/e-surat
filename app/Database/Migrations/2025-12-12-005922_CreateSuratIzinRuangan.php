@@ -15,6 +15,7 @@ class CreateSimrTable extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
+            
             'nama'        => [
                 'type'       => 'VARCHAR',
                 'constraint' => '100',

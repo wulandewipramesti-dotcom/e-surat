@@ -1,65 +1,44 @@
 <?= $this->extend('layouts/sidebar_mahasiswa') ?>
 <?= $this->section('content') ?>
 
-<h1 class="h3 mb-4 text-gray-800">
-    <i class="fas fa-envelope"></i> <?= esc($title) ?>
-</h1>
+<h1 class="h3 mb-4"><?= esc($title) ?></h1>
 
-<?php if(session()->getFlashdata('success')): ?>
-    <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
-<?php endif; ?>
+<a href="<?= base_url('mahasiswa/simr/create') ?>" class="btn btn-primary mb-3">
+    <i class="fas fa-plus"></i> Tambah Surat
+</a>
 
-<div class="card">
-    <div class="card-header">
-        <a href="<?= route_to('simr.create') ?>" class="btn btn-primary btn-sm">Tambah Data</a>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped text-center">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>NIM</th>
-                        <th>Jurusan</th>
-                        <th>Kegiatan</th>
-                        <th>Tanggal / Waktu</th>
-                        <th>Ruangan</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($surats)): ?>
-                        <?php $no = 1; foreach($surats as $row): ?>
-                        <tr>
-                            <td><?= $no++ ?></td>
-                            <td><?= esc($row['nama']) ?></td>
-                            <td><?= esc($row['nim']) ?></td>
-                            <td><?= esc($row['jurusan']) ?></td>
-                            <td><?= esc($row['kegiatan']) ?></td>
-                            <td>
-                                <?= esc($row['tanggal']) ?><br>
-                                <?= esc($row['waktu_mulai']) ?> - <?= esc($row['waktu_selesai']) ?>
-                            </td>
-                            <td><?= esc($row['ruangan']) ?></td>
-                            <td>
-                                <a href="<?= route_to('simr.edit', $row['id']) ?>" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="<?= route_to('simr.delete', $row['id']) ?>" class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr><td colspan="8" class="text-center">Belum ada data surat.</td></tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Kegiatan</th>
+            <th>Tanggal</th>
+            <th>Ruangan</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if ($simr): ?>
+            <?php $no = 1; foreach ($simr as $s): ?>
+            <tr>
+                <td><?= $no++ ?></td>
+                <td><?= esc($s['kegiatan']) ?></td>
+                <td><?= date('d-m-Y', strtotime($s['tanggal'])) ?></td>
+                <td><?= esc($s['ruangan']) ?></td>
+                <td>
+                    <a href="<?= base_url('mahasiswa/simr/cetak/'.$s['id']) ?>"
+                       class="btn btn-sm btn-success">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </a>
+                </td>
+            </tr>
+            <?php endforeach ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="5" class="text-center">Belum ada data</td>
+            </tr>
+        <?php endif ?>
+    </tbody>
+</table>
 
 <?= $this->endSection() ?>

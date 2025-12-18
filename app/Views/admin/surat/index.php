@@ -8,9 +8,37 @@
 <?php elseif(session()->getFlashdata('error')): ?>
     <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
 <?php endif; ?>
+    <form method="get" action="<?= base_url('admin/surat') ?>" class="mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <input 
+                type="text" 
+                name="keyword" 
+                class="form-control"
+                placeholder="Cari jenis surat / status / user ID..."
+                value="<?= esc($keyword ?? '') ?>"
+            >
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary w-100">
+                <i class="fas fa-search"></i> Cari
+            </button>
+        </div>
+        <?php if (!empty($keyword)): ?>
+        <div class="col-md-2">
+            <a href="<?= base_url('admin/surat') ?>" class="btn btn-secondary w-100">
+                Reset
+            </a>
+        </div>
+        <?php endif; ?>
+    </div>
+</form>
 
-<div class="table-responsive">
-<table class="table table-bordered table-striped text-center align-middle">
+<!-- 🔥 WRAPPER WAJIB -->
+<div class="datatable-wrapper">
+<table id="tableSurat"
+       class="table table-bordered table-striped dt-responsive"
+       style="width:100%">
     <thead >
         <tr>
             <th>No</th>
@@ -94,6 +122,15 @@
         <?php endif; ?>
     </tbody>
 </table>
+<script>
+$(document).ready(function () {
+    $('#tableSurat').DataTable({
+        responsive: true,
+        autoWidth: false
+    });
+});
+</script>
+
 </div>
 
 <?= $this->endSection() ?>

@@ -8,8 +8,19 @@ class SimrModel extends Model
 {
     protected $table = 'simr';
     protected $primaryKey = 'id';
+
     protected $allowedFields = [
-        'nama', 'nim', 'jurusan', 'kegiatan', 
-        'tanggal', 'waktu_mulai', 'waktu_selesai', 'ruangan', 'status'
+        'user_id',
+        'nama',
+        'nim',
+        'jurusan',
+        'kegiatan',
+        'tanggal',
+        'waktu_mulai',
+        'waktu_selesai',
+        'ruangan',
+        'status'
     ];
+
+    protected $useTimestamps = true;
 }

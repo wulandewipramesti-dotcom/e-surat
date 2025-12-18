@@ -4,6 +4,7 @@ namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
 use App\Models\SimrModel;
+use Dompdf\Dompdf;
 
 class Simr extends BaseController
 {
@@ -14,66 +15,73 @@ class Simr extends BaseController
         $this->simrModel = new SimrModel();
     }
 
+    // =========================
+    // INDEX (LIST SURAT)
+    // =========================
     public function index()
     {
         $data = [
             'title' => 'Surat Izin Meminjam Ruangan',
-            'surats' => $this->simrModel->findAll()
+            'simr'  => $this->simrModel
+                        ->where('user_id', session()->get('user_id'))
+                        ->orderBy('id', 'DESC')
+                        ->findAll()
         ];
+
         return view('mahasiswa/simr/index', $data);
     }
 
+    // =========================
+    // CREATE FORM
+    // =========================
     public function create()
     {
-        $data['title'] = 'Tambah Surat Izin';
-        return view('mahasiswa/simr/create', $data);
+        return view('mahasiswa/simr/create', [
+            'title' => 'Tambah Surat SIMR'
+        ]);
     }
 
+    // =========================
+    // STORE DATA
+    // =========================
     public function store()
     {
-        $this->simrModel->save([
-            'nama' => $this->request->getPost('nama'),
-            'nim' => $this->request->getPost('nim'),
-            'jurusan' => $this->request->getPost('jurusan'),            'kegiatan' => $this->request->getPost('kegiatan'),
-            'tanggal' => $this->request->getPost('tanggal'),
-            'waktu_mulai' => $this->request->getPost('waktu_mulai'),
-            'waktu_selesai' => $this->request->getPost('waktu_selesai'),
-            'ruangan' => $this->request->getPost('ruangan'),
-            'status' => 'pending'
-        ]);
-
-        return redirect()->route('simr.index')->with('success', 'Data berhasil ditambahkan.');
-    }
-
-    public function edit($id)
-    {
         $data = [
-            'title' => 'Edit Surat Izin',
-            'surat' => $this->simrModel->find($id)
-        ];
-        return view('mahasiswa/simr/edit', $data);
-    }
-
-    public function update($id)
-    {
-        $this->simrModel->update($id, [
-            'nama' => $this->request->getPost('nama'),
-            'nim' => $this->request->getPost('nim'),
-            'jurusan' => $this->request->getPost('jurusan'),
-            'kegiatan' => $this->request->getPost('kegiatan'),
-            'tanggal' => $this->request->getPost('tanggal'),
-            'waktu_mulai' => $this->request->getPost('waktu_mulai'),
+            'user_id'       => session()->get('user_id'),
+            'nama'          => session()->get('nama'),
+            'nim'           => session()->get('nim'),
+            'jurusan'       => session()->get('jurusan'),
+            'kegiatan'      => $this->request->getPost('kegiatan'),
+            'tanggal'       => $this->request->getPost('tanggal'),
+            'waktu_mulai'   => $this->request->getPost('waktu_mulai'),
             'waktu_selesai' => $this->request->getPost('waktu_selesai'),
-            'ruangan' => $this->request->getPost('ruangan'),
-            'status' => $this->request->getPost('status')
-        ]);
+            'ruangan'       => $this->request->getPost('ruangan'),
+            'status'        => 'approved'
+        ];
 
-        return redirect()->route('simr.index')->with('success', 'Data berhasil diupdate.');
+        $this->simrModel->insert($data);
+        $id = $this->simrModel->getInsertID();
+
+        return redirect()->to('mahasiswa/simr/cetak/' . $id);
     }
 
-    public function delete($id)
+    // =========================
+    // CETAK PDF
+    // =========================
+    public function cetak($id)
     {
-        $this->simrModel->delete($id);
-        return redirect()->route('simr.index')->with('success', 'Data berhasil dihapus.');
+        $simr = $this->simrModel->find($id);
+
+        if (!$simr) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
+
+        $html = view('mahasiswa/simr/pdf', ['simr' => $simr]);
+
+        // $dompdf = new Dompdf();
+        // $dompdf->loadHtml($html);
+        // $dompdf->setPaper('A4', 'portrait');
+        // $dompdf->render();
+        // $dompdf->stream('SIMR.pdf', ['Attachment' => false]);
     }
 }

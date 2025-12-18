@@ -71,5 +71,13 @@ foreach ($folders as $folder) {
         $routes->get('delete/(:num)', "Mahasiswa\\$ucFolder::delete/$1", ['as' => "$folder.delete"]);
 
         $routes->get('detail/(:num)', "Mahasiswa\\$ucFolder::detail/$1", ['as' => "$folder.detail"]);
+        
+    $routes->group('mahasiswa', ['filter' => 'auth'], function ($routes) {
+        $routes->get('simr', 'Mahasiswa\Simr::index');
+        $routes->get('simr/create', 'Mahasiswa\Simr::create');
+        $routes->post('simr/store', 'Mahasiswa\Simr::store');
+        $routes->get('simr/cetak/(:num)', 'Mahasiswa\Simr::cetak/$1');
+});
+
     });
 }

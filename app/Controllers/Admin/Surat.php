@@ -18,16 +18,28 @@ class Surat extends BaseController
     }
 
     public function index()
-    {
-        $surats = $this->suratModel
-            ->orderBy('created_at', 'DESC')
-            ->findAll();
+{
+    $keyword = $this->request->getGet('keyword');
 
-        return view('admin/surat/index', [
-            'title'  => 'Surat Masuk',
-            'surats' => $surats
-        ]);
+    if ($keyword) {
+        $this->suratModel
+            ->groupStart()
+                ->like('jenis_surat', $keyword)
+                ->orLike('status', $keyword)
+                ->orLike('user_id', $keyword)
+            ->groupEnd();
     }
+
+    $surats = $this->suratModel
+        ->orderBy('created_at', 'DESC')
+        ->findAll();
+
+    return view('admin/surat/index', [
+        'title'   => 'Surat Masuk',
+        'surats'  => $surats,
+        'keyword' => $keyword
+    ]);
+}
 
     public function approve($id)
     {
