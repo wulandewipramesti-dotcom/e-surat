@@ -7,6 +7,7 @@ class SikModel extends Model
 {
     protected $table = 'sik';
     protected $primaryKey = 'id';
+
     protected $allowedFields = [
         'nim',
         'nama_mahasiswa',
@@ -15,9 +16,9 @@ class SikModel extends Model
         'tahun_ajaran',
         'tanggal_izin',
         'alasan',
-        'status'
     ];
+
     protected $useTimestamps = true;
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
+    protected $createdField = 'created_at';
+    protected $updatedField = 'updated_at';
 }

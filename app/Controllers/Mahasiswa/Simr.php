@@ -4,7 +4,7 @@ namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
 use App\Models\SimrModel;
-use Dompdf\Dompdf;
+use Mpdf\Mpdf;
 
 class Simr extends BaseController
 {
@@ -15,34 +15,24 @@ class Simr extends BaseController
         $this->simrModel = new SimrModel();
     }
 
-    // =========================
-    // INDEX (LIST SURAT)
-    // =========================
+    // 🔥 LANGSUNG FORM CREATE (seperti SIK)
     public function index()
     {
-        $data = [
-            'title' => 'Surat Izin Meminjam Ruangan',
-            'simr'  => $this->simrModel
-                        ->where('user_id', session()->get('user_id'))
-                        ->orderBy('id', 'DESC')
-                        ->findAll()
-        ];
-
-        return view('mahasiswa/simr/index', $data);
+        return redirect()->to(route_to('simr.create'));
     }
 
     // =========================
-    // CREATE FORM
+    // FORM CREATE
     // =========================
     public function create()
     {
         return view('mahasiswa/simr/create', [
-            'title' => 'Tambah Surat SIMR'
+            'title' => 'Surat Izin Meminjam Ruangan'
         ]);
     }
 
     // =========================
-    // STORE DATA
+    // SIMPAN + TAMPILKAN PDF
     // =========================
     public function store()
     {
@@ -56,32 +46,35 @@ class Simr extends BaseController
             'waktu_mulai'   => $this->request->getPost('waktu_mulai'),
             'waktu_selesai' => $this->request->getPost('waktu_selesai'),
             'ruangan'       => $this->request->getPost('ruangan'),
-            'status'        => 'approved'
+            'status'        => 'Pending'
         ];
 
+        // 1️⃣ Simpan ke database
         $this->simrModel->insert($data);
         $id = $this->simrModel->getInsertID();
 
-        return redirect()->to('mahasiswa/simr/cetak/' . $id);
-    }
-
-    // =========================
-    // CETAK PDF
-    // =========================
-    public function cetak($id)
-    {
+        // 2️⃣ Ambil data terbaru
         $simr = $this->simrModel->find($id);
 
-        if (!$simr) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
-        }
+        // 3️⃣ Load template PDF
+        $html = view('mahasiswa/simr/simr_template', [
+            'simr' => $simr
+        ]);
 
-        $html = view('mahasiswa/simr/pdf', ['simr' => $simr]);
+        // 4️⃣ Generate PDF
+        $mpdf = new Mpdf([
+            'format' => 'A4',
+            'orientation' => 'P'
+        ]);
+        $mpdf->WriteHTML($html);
 
-        // $dompdf = new Dompdf();
-        // $dompdf->loadHtml($html);
-        // $dompdf->setPaper('A4', 'portrait');
-        // $dompdf->render();
-        // $dompdf->stream('SIMR.pdf', ['Attachment' => false]);
+        // 5️⃣ INLINE (langsung terlihat di browser)
+        return $this->response
+            ->setHeader('Content-Type', 'application/pdf')
+            ->setHeader(
+                'Content-Disposition',
+                'inline; filename="SIMR.pdf"'
+            )
+            ->setBody($mpdf->Output('', 'S'));
     }
 }

@@ -1,67 +1,92 @@
 <?= $this->extend('layouts/sidebar_mahasiswa') ?>
 <?= $this->section('content') ?>
 
-<div class="d-flex justify-content-center mt-4">
-<div class="card shadow-lg" style="width: 80%; border-radius: 12px;">
+<h1 class="h3 mb-4 text-gray-800">
+    <i class="fas fa-envelope"></i> <?= esc($title) ?>
+</h1>
 
-    <div class="card-header bg-white">
-        <h4 class="text-dark font-weight-bold mb-0">Tambah Surat Izin Kuliah</h4>
-    </div>
+<form action="<?= route_to('sik.store') ?>" method="post">
+    <?= csrf_field() ?>
 
-    <div class="card-body">
-        <form action="<?= route_to('sik.store') ?>" method="post">
-            <?= csrf_field() ?>
+    <div class="card">
+        <div class="card-body">
 
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Nama Mahasiswa *</label>
-                    <input type="text" name="nama_mahasiswa" class="form-control" required placeholder="Masukkan nama mahasiswa">
-                </div>
+            <!-- USER ID (HIDDEN) -->
+            <input type="hidden" name="user_id" value="<?= session()->get('user_id') ?>">
 
-                <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">NIM *</label>
-                    <input type="text" name="nim" class="form-control" required placeholder="Masukkan NIM">
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Semester *</label>
-                    <select name="semester" class="form-control" required>
-                        <option value="">-- Pilih Semester --</option>
-                        <option value="Ganjil">Ganjil</option>
-                        <option value="Genap">Genap</option>
-                    </select>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Tahun Ajaran *</label>
-                    <input type="text" name="tahun_ajaran" class="form-control" required placeholder="2024/2025">
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Tanggal Izin *</label>
-                    <input type="date" name="tanggal_izin" class="form-control" required>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Alasan *</label>
-                    <input type="text" name="alasan" class="form-control" required placeholder="Alasan izin">
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Prodi *</label>
-                    <input type="text" name="prodi" class="form-control" required placeholder="Program Studi">
-                </div>
+            <!-- NIM -->
+            
+            <!-- NAMA -->
+            <div class="form-group">
+                <label>Nama Mahasiswa</label>
+                <input type="text"
+                class="form-control"
+                value="<?= esc(session()->get('nama')) ?>"
+                readonly>
+            </div>
+            <div class="form-group">
+                <label>NIM</label>
+                <input type="text"
+                       class="form-control"
+                       value="<?= esc(session()->get('nim')) ?>"
+                       readonly>
             </div>
 
-            <div class="text-right mt-3">
-                <a href="<?= route_to('sik.index') ?>" class="btn btn-secondary">Batal</a>
-                <button type="submit" class="btn btn-primary">Submit</button>
+            <!-- PROGRAM STUDI -->
+            <div class="form-group">
+                <label>Program Studi</label>
+                <input type="text"
+                       name="prodi"
+                       class="form-control"
+                       required>
             </div>
 
-        </form>
-    </div>
+            <!-- SEMESTER -->
+            <div class="form-group">
+                <label>Semester</label>
+                <input type="text"
+                       name="semester"
+                       class="form-control"
+                       required>
+            </div>
 
-</div>
-</div>
+            <!-- TAHUN AJARAN -->
+            <div class="form-group">
+                <label>Tahun Ajaran</label>
+                <input type="text"
+                       name="tahun_ajaran"
+                       class="form-control"
+                       required>
+            </div>
+
+            <!-- TANGGAL IZIN -->
+            <div class="form-group">
+                <label>Tanggal Izin</label>
+                <input type="date"
+                       name="tanggal_izin"
+                       class="form-control"
+                       required>
+            </div>
+
+            <!-- ALASAN -->
+            <div class="form-group">
+                <label>Alasan</label>
+                <textarea name="alasan"
+                          class="form-control"
+                          rows="3"
+                          required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-file-pdf"></i> Buat Surat
+            </button>
+
+            <a href="<?= base_url('mahasiswa/sik') ?>" class="btn btn-secondary ml-2">
+                Kembali
+            </a>
+
+        </div>
+    </div>
+</form>
 
 <?= $this->endSection() ?>

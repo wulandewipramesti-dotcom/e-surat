@@ -57,7 +57,7 @@ $routes->get('dashboard_mhs', 'Mahasiswa::dashboard');
 // ============================
 
 // Semua folder mahasiswa: skak, sic, sik, simr, sism, spm
-$folders = ['skak', 'sik', 'simr', 'sism', 'spm'];
+$folders = ['skak', 'sism', 'spm'];
 
 foreach ($folders as $folder) {
     $ucFolder = ucfirst($folder); // Controller harus huruf besar
@@ -80,4 +80,20 @@ foreach ($folders as $folder) {
 });
 
     });
+    // ============================
+// KHUSUS SIK (langsung create)
+// ============================
+$routes->group('mahasiswa/sik', function($routes) {
+    $routes->get('/', 'Mahasiswa\Sik::create', ['as' => 'sik.index']);
+    $routes->get('create', 'Mahasiswa\Sik::create', ['as' => 'sik.create']);
+    $routes->post('store', 'Mahasiswa\Sik::store', ['as' => 'sik.store']);
+});
+$routes->group('mahasiswa/simr', function($routes) {
+    $routes->get('/', 'Mahasiswa\Simr::create', ['as' => 'simr.index']);
+    $routes->get('create', 'Mahasiswa\Simr::create', ['as' => 'simr.create']);
+    $routes->post('store', 'Mahasiswa\Simr::store', ['as' => 'simr.store']);
+});
+
+
+
 }

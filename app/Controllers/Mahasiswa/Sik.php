@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
 use App\Models\SikModel;
+use Mpdf\Mpdf;
 
 class Sik extends BaseController
 {
@@ -13,75 +15,50 @@ class Sik extends BaseController
         $this->sikModel = new SikModel();
     }
 
-    public function index()
-    {
-        $data = [
-            'title'  => 'Data Surat Izin Kuliah',
-            'surats' => $this->sikModel->findAll()
-        ];
-
-        return view('mahasiswa/sik/index', $data);
-    }
-
     public function create()
     {
-        $data = [
-            'title' => 'Tambah Surat Izin Kuliah'
-        ];
-
-        return view('mahasiswa/sik/create', $data);
+        return view('mahasiswa/sik/create', [
+            'title' => 'Surat Izin Kuliah'
+        ]);
     }
 
+    // 🔥 SUBMIT → LANGSUNG PDF INLINE
     public function store()
     {
-        $this->sikModel->insert([
-            'nama_mahasiswa' => $this->request->getPost('nama_mahasiswa'),
-            'nim'            => $this->request->getPost('nim'),
+        $data = [
+            'user_id'        => session()->get('user_id'),
+            'nama_mahasiswa' => session()->get('nama'),
+            'nim'            => session()->get('nim'),
             'prodi'          => $this->request->getPost('prodi'),
             'semester'       => $this->request->getPost('semester'),
             'tahun_ajaran'   => $this->request->getPost('tahun_ajaran'),
             'tanggal_izin'   => $this->request->getPost('tanggal_izin'),
             'alasan'         => $this->request->getPost('alasan'),
-            'status'         => 'Pending'
-        ]);
-
-        return redirect()->to(route_to('sik.index'))->with('success', 'Data berhasil ditambahkan.');
-    }
-
-    public function edit($id)
-    {
-        $sik = $this->sikModel->find($id);
-
-        if (!$sik) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Data izin tidak ditemukan');
-        }
-
-        $data = [
-            'title' => 'Edit Surat Izin Kuliah',
-            'sik'   => $sik
         ];
 
-        return view('mahasiswa/sik/edit', $data);
-    }
 
-    public function update($id)
-    {
-        $this->sikModel->update($id, [
-            'nama_mahasiswa' => $this->request->getPost('nama_mahasiswa'),
-            'nim'            => $this->request->getPost('nim'),
-            'prodi'          => $this->request->getPost('prodi'),
-            'semester'       => $this->request->getPost('semester'),
-            'tahun_ajaran'   => $this->request->getPost('tahun_ajaran'),
-            'tanggal_izin'   => $this->request->getPost('tanggal_izin'),
-            'alasan'         => $this->request->getPost('alasan')
+        // 1️⃣ Simpan ke DB
+        $this->sikModel->insert($data);
+
+        // 2️⃣ Ambil ID
+        $id = $this->sikModel->getInsertID();
+        $surat = $this->sikModel->find($id);
+
+        // 3️⃣ HTML → PDF
+        $html = view('mahasiswa/sik/sik_template', [
+            'surat' => $surat
         ]);
 
-        return redirect()->to(route_to('sik.index'))->with('success', 'Data berhasil diperbarui.');
-    }
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($html);
 
-    public function delete($id)
-    {
-        $this->sikModel->delete($id);
-        return redirect()->to(route_to('sik.index'))->with('success', 'Data berhasil dihapus.');
+        // 4️⃣ INLINE VIEW
+        return $this->response
+            ->setHeader('Content-Type', 'application/pdf')
+            ->setHeader(
+                'Content-Disposition',
+                'inline; filename="Surat_Izin_Kuliah.pdf"'
+            )
+            ->setBody($mpdf->Output('', 'S'));
     }
 }

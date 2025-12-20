@@ -19,7 +19,6 @@ class SimrModel extends Model
         'waktu_mulai',
         'waktu_selesai',
         'ruangan',
-        'status'
     ];
 
     protected $useTimestamps = true;
