@@ -71,18 +71,20 @@ class Sism extends BaseController
     }
 
     // =========================
-    // EDIT
+    // EDIT (pending & ditolak)
     // =========================
     public function edit($id)
     {
         $surat = $this->suratModel->find($id);
-        if (!$surat) throw new PageNotFoundException('Surat tidak ditemukan');
-
-        if ($surat['status'] != 'pending') {
-            return redirect()->back()->with('error', 'Surat tidak bisa diedit karena sudah diproses admin.');
+        if (!$surat) {
+            throw new PageNotFoundException('Surat tidak ditemukan');
         }
 
-        
+        // ❌ kunci jika sudah diproses
+        if (in_array($surat['status'], ['diterima', 'selesai'])) {
+            return redirect()->back()
+                ->with('error', 'Surat tidak bisa diedit karena sudah diproses admin.');
+        }
 
         $dataSism = json_decode($surat['data_surat'], true) ?? [];
 
@@ -94,35 +96,39 @@ class Sism extends BaseController
     }
 
     // =========================
-    // UPDATE
+    // UPDATE (reset ke pending)
     // =========================
-   public function update($id)
-{
-    $surat = $this->suratModel->find($id);
-    if (!$surat) return redirect()->back()->with('error', 'Surat tidak ditemukan');
+    public function update($id)
+    {
+        $surat = $this->suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Surat tidak ditemukan');
+        }
 
-    if ($surat['status'] != 'pending') {
-        return redirect()->back()->with('error', 'Surat tidak bisa diupdate karena sudah diproses admin.');
+        // ❌ kunci jika sudah diproses
+        if (in_array($surat['status'], ['diterima', 'selesai'])) {
+            return redirect()->back()
+                ->with('error', 'Surat tidak bisa diupdate karena sudah diproses admin.');
+        }
+
+        $dataSism = json_decode($surat['data_surat'], true) ?? [];
+
+        $dataSism['kegiatan']      = $this->request->getPost('kegiatan');
+        $dataSism['lokasi_survey'] = $this->request->getPost('lokasi_survey');
+        $dataSism['tanggal']       = $this->request->getPost('tanggal');
+        $dataSism['waktu_mulai']   = $this->request->getPost('waktu_mulai');
+        $dataSism['waktu_selesai'] = $this->request->getPost('waktu_selesai');
+
+        $this->suratModel->update($id, [
+            'data_surat' => json_encode($dataSism),
+            // ⬅️ penting: kirim ulang ke admin
+            'status'     => 'pending',
+            'file_surat' => null
+        ]);
+
+        return redirect()->route('sism.index')
+            ->with('success', 'Surat berhasil diperbarui dan dikirim ulang ke admin.');
     }
-
-    // decode JSON
-    $dataSism = json_decode($surat['data_surat'], true) ?? [];
-
-    // update nilai dari POST
-    $dataSism['kegiatan']      = $this->request->getPost('kegiatan');
-    $dataSism['lokasi_survey'] = $this->request->getPost('lokasi_survey');
-    $dataSism['tanggal']       = $this->request->getPost('tanggal');
-    $dataSism['waktu_mulai']   = $this->request->getPost('waktu_mulai');
-    $dataSism['waktu_selesai'] = $this->request->getPost('waktu_selesai');
-
-    // update kembali ke DB
-    $this->suratModel->update($id, [
-        'data_surat' => json_encode($dataSism)
-    ]);
-
-    return redirect()->route('sism.index')
-                     ->with('success', 'Data berhasil diupdate.');
-}
 
     // =========================
     // DELETE
@@ -130,14 +136,20 @@ class Sism extends BaseController
     public function delete($id)
     {
         $surat = $this->suratModel->find($id);
-        if (!$surat) return redirect()->back()->with('error', 'Surat tidak ditemukan');
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Surat tidak ditemukan');
+        }
 
-        if ($surat['status'] != 'pending') {
-            return redirect()->back()->with('error', 'Surat tidak bisa dihapus karena sudah diproses admin.');
+        // ❌ kunci jika sudah diproses
+        if (in_array($surat['status'], ['diterima', 'selesai'])) {
+            return redirect()->back()
+                ->with('error', 'Surat tidak bisa dihapus karena sudah diproses admin.');
         }
 
         $this->suratModel->delete($id);
-        return redirect()->route('sism.index')->with('success', 'Surat berhasil dihapus');
+
+        return redirect()->route('sism.index')
+            ->with('success', 'Surat berhasil dihapus');
     }
 
     // =========================
@@ -146,7 +158,9 @@ class Sism extends BaseController
     public function detail($id)
     {
         $surat = $this->suratModel->find($id);
-        if (!$surat) throw new PageNotFoundException('Surat tidak ditemukan');
+        if (!$surat) {
+            throw new PageNotFoundException('Surat tidak ditemukan');
+        }
 
         $dataSism = json_decode($surat['data_surat'], true) ?? [];
 

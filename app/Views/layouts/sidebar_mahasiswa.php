@@ -35,7 +35,7 @@
         .collapse-inner {
             padding-left: 15px;
             padding-right: 15px;
-            background: transparent;
+            background: #062963 !important; /* biru tua */;
         }
 
         /* Teks dropdown bisa wrap */
