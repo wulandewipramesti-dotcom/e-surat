@@ -4,32 +4,49 @@ namespace App\Controllers;
 
 use App\Models\SimrModel;
 use App\Models\SpmModel;
-use App\Models\SuratModel;
 use App\Models\SikModel;
 use App\Models\SismModel;
+use App\Models\SuratModel;
 
 class Mahasiswa extends BaseController
 {
     public function dashboard()
-    {
-        $userId = session()->get('user_id');
+{
+    $userId = session()->get('user_id');
+    $nim    = session()->get('nim');
+    $suratModel = new SuratModel();
+    $simrModel  = new SimrModel();
+    $sikModel   = new SikModel();
 
-        $simrModel = new SimrModel();
-        $spmModel  = new SpmModel();
-        $sismModel = new SismModel();
-        $sikModel  = new SikModel();
-        $suratModel = new SuratModel();
+    $data = [
+        'title' => 'Dashboard Mahasiswa',
 
+        // dari tabel surat
+        'totalSPM' => $suratModel
+            ->where('user_id', $userId)
+            ->where('jenis_surat', 'SPM')
+            ->countAllResults(),
 
-        $data = [
-            'title'      => 'Dashboard Mahasiswa',
-            'totalSIMR'  => $simrModel->where('user_id', $userId)->countAllResults(),
-            'totalSPM'   => $spmModel->where('user_id', $userId)->countAllResults(),
-            'totalSISM'  => $sismModel->where('user_id', $userId)->countAllResults(),
-            'totalSIK'   => $sikModel->where('user_id', $userId)->countAllResults(),
-            'totalSURAT'  => $suratModel->where('user_id', $userId)->countAllResults(),
-        ];
+        'totalSKAK' => $suratModel
+            ->where('user_id', $userId)
+            ->where('jenis_surat', 'SKAK')
+            ->countAllResults(),
 
-        return view('dashboard_mhs', $data);
-    }
+        'totalSISM' => $suratModel
+            ->where('user_id', $userId)
+            ->where('jenis_surat', 'SISM')
+            ->countAllResults(),
+
+        // dari tabel masing-masing
+        'totalSIMR' => $simrModel
+            ->where('user_id', $userId)
+            ->countAllResults(),
+
+        'totalSIK' => $sikModel
+            ->where('nim', $nim)
+            ->countAllResults(),
+    ];
+
+    return view('dashboard_mhs', $data);
+}
 }

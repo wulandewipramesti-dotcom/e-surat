@@ -1,64 +1,54 @@
 <?= $this->extend('layouts/sidebar_mahasiswa') ?>
 <?= $this->section('content') ?>
 
-<div class="d-flex justify-content-center mt-4">
-<div class="card shadow-lg" style="width: 80%; border-radius: 12px;">
-    
-    <div class="card-header bg-white">
-        <h4 class="text-dark font-weight-bold mb-0">
-            Edit Surat Keterangan Aktif Kuliah
-        </h4>
-    </div>
+<h4><?= esc($title) ?></h4>
 
-    <div class="card-body">
-        <form action="<?= route_to('skak.update', $surat['id']) ?>" method="post">
-            <?= csrf_field() ?>
+<form action="<?= route_to('skak.update', $surat['id']) ?>" method="post">
+<?= csrf_field() ?>
 
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Nama Orang Tua *</label>
-                    <input type="text" name="nama_orangtua" class="form-control" required
-                           value="<?= esc($data['nama_orangtua'] ?? '') ?>">
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Pangkat / Golongan</label>
-                    <input type="text" name="pangkat" class="form-control"
-                           value="<?= esc($data['pangkat'] ?? '') ?>">
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Semester *</label>
-                    <select name="semester" class="form-control" required>
-                        <option value="Ganjil"
-                            <?= ($data['semester'] ?? '') == 'Ganjil' ? 'selected' : '' ?>>
-                            Ganjil
-                        </option>
-                        <option value="Genap"
-                            <?= ($data['semester'] ?? '') == 'Genap' ? 'selected' : '' ?>>
-                            Genap
-                        </option>
-                    </select>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="font-weight-bold">Tahun Ajaran *</label>
-                    <input type="text" name="tahun_ajaran" class="form-control" required
-                           value="<?= esc($data['tahun_ajaran'] ?? '') ?>">
-                </div>
-            </div>
-
-            <div class="text-right mt-3">
-                <a href="<?= route_to('skak.index') ?>" class="btn btn-secondary">
-                    Batal
-                </a>
-                <button type="submit" class="btn btn-primary">
-                    Update Data
-                </button>
-            </div>
-        </form>
-    </div>
+<div class="mb-3">
+    <label>Nama</label>
+    <input class="form-control" value="<?= esc($data['nama'] ?? '') ?>" readonly>
 </div>
+
+<div class="mb-3">
+    <label>NIM</label>
+    <input class="form-control" value="<?= esc($data['nim'] ?? '') ?>" readonly>
 </div>
+
+<div class="mb-3">
+    <label>Jurusan</label>
+    <input class="form-control" value="<?= esc($data['jurusan'] ?? '') ?>" readonly>
+</div>
+
+<div class="mb-3">
+    <label>Nama Orang Tua *</label>
+    <input type="text" name="nama_orangtua" class="form-control"
+           value="<?= esc($data['nama_orangtua'] ?? '') ?>" required>
+</div>
+
+<div class="mb-3">
+    <label>Pangkat</label>
+    <input type="text" name="pangkat" class="form-control"
+           value="<?= esc($data['pangkat'] ?? '') ?>">
+</div>
+
+<div class="mb-3">
+    <label>Semester *</label>
+    <select name="semester" class="form-control">
+        <option value="Ganjil" <?= ($data['semester'] ?? '')=='Ganjil'?'selected':'' ?>>Ganjil</option>
+        <option value="Genap" <?= ($data['semester'] ?? '')=='Genap'?'selected':'' ?>>Genap</option>
+    </select>
+</div>
+
+<div class="mb-3">
+    <label>Tahun Ajaran *</label>
+    <input type="text" name="tahun_ajaran" class="form-control"
+           value="<?= esc($data['tahun_ajaran'] ?? '') ?>" required>
+</div>
+
+<button class="btn btn-primary">Update</button>
+<a href="<?= route_to('skak.index') ?>" class="btn btn-secondary">Batal</a>
+</form>
 
 <?= $this->endSection() ?>
