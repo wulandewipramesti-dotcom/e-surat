@@ -1,207 +1,190 @@
-📄 Sistem Informasi Pengajuan Surat Mahasiswa
-📌 Deskripsi Proyek
+# 📄 Sistem Informasi Pengajuan Surat Mahasiswa
 
-Sistem Informasi Pengajuan Surat Mahasiswa adalah aplikasi berbasis web yang digunakan oleh mahasiswa untuk mengajukan berbagai jenis surat akademik secara online, memantau status surat, serta mengunduh surat yang telah disetujui oleh pihak akademik.
+> 🎓 Aplikasi berbasis web untuk pengajuan dan pengelolaan surat akademik mahasiswa secara online, cepat, dan transparan.
 
-Sistem ini dirancang untuk menggantikan proses manual menjadi lebih cepat, terstruktur, dan transparan, dengan alur status surat yang jelas dari pengajuan hingga selesai.
+---
 
-🎯 Tujuan Sistem
+## 📌 Deskripsi Proyek
+**Sistem Informasi Pengajuan Surat Mahasiswa** adalah aplikasi berbasis web yang membantu mahasiswa dalam mengajukan berbagai jenis surat akademik secara online, memantau status pengajuan, serta mengunduh surat yang telah disetujui oleh pihak akademik.
 
-Memudahkan mahasiswa dalam mengajukan surat akademik
+Sistem ini menggantikan proses manual menjadi lebih **efisien, terstruktur, dan transparan**, dengan alur status surat yang jelas dari tahap pengajuan hingga surat selesai diproses.
 
-Mengurangi proses administrasi manual
+---
 
-Menyediakan monitoring status surat secara real-time
+## 🎯 Tujuan Sistem
+- ✅ Memudahkan mahasiswa mengajukan surat akademik  
+- 📉 Mengurangi proses administrasi manual  
+- ⏱️ Monitoring status surat secara real-time  
+- 🗂️ Menjadi pusat data surat mahasiswa terintegrasi  
 
-Menjadi pusat data surat mahasiswa yang terintegrasi
+---
 
-🛠️ Tech Stack
-Backend
+## 🛠️ Tech Stack
 
-PHP 8.2
+### 🔧 Backend
+- 🐘 **PHP 8.2**
+- ⚙️ **CodeIgniter 4.6**
+- 🗄️ **MySQL / MariaDB**
+- 🧩 **MVC Architecture**
 
-CodeIgniter 4.6
+### 🎨 Frontend
+- 🎨 **Bootstrap 4 / 5**
+- ⭐ **Font Awesome**
+- 🌐 **HTML5 & CSS3**
 
-MySQL / MariaDB
+### 🧰 Tools & Library
+- 🔐 Session Authentication  
+- 🛡️ CSRF Protection (CI4)  
+- 🧾 JSON Field (`data_surat`)  
+- 📎 File Upload (PDF / Surat Akademik)  
 
-MVC Architecture
+---
 
-Frontend
-
-Bootstrap 4 / 5
-
-Font Awesome
-
-HTML5 & CSS3
-
-Tools & Library
-
-Session Authentication
-
-CSRF Protection (CI4)
-
-JSON Field (data_surat)
-
-File Upload (PDF / Surat Akademik)
-
-🧱 Struktur Proyek (Ringkas)
+## 🧱 Struktur Proyek (Ringkas)
 app/
 ├── Controllers/
-│   ├── Mahasiswa/
-│   │   ├── Spm.php
-│   │   ├── Skak.php
-│   │   ├── Sik.php
-│   │   ├── Simr.php
-│   │   └── Sism.php
-│   └── Mahasiswa.php (Dashboard)
+│ ├── Mahasiswa/
+│ │ ├── Spm.php
+│ │ ├── Skak.php
+│ │ ├── Sik.php
+│ │ ├── Simr.php
+│ │ └── Sism.php
+│ └── Mahasiswa.php
 │
 ├── Models/
-│   ├── SuratModel.php
-│   ├── SpmModel.php
-│   ├── SikModel.php
-│   ├── SimrModel.php
-│   └── SismModel.php
+│ ├── SuratModel.php
+│ ├── SpmModel.php
+│ ├── SikModel.php
+│ ├── SimrModel.php
+│ └── SismModel.php
 │
 ├── Views/
-│   ├── dashboard_mhs.php
-│   └── mahasiswa/
-│       ├── spm/
-│       ├── skak/
-│       ├── sik/
-│       ├── simr/
-│       └── sism/
+│ ├── dashboard_mhs.php
+│ └── mahasiswa/
+│ ├── spm/
+│ ├── skak/
+│ ├── sik/
+│ ├── simr/
+│ └── sism/
 │
 public/
 └── uploads/
-    └── surat/
+└── surat/
 
-📄 Jenis Surat yang Didukung
-Kode	Jenis Surat
-SPM	Surat Permohonan Magang
-SKAK	Surat Keterangan Aktif Kuliah
-SIK	Surat Izin Kuliah
-SIMR	Surat Izin Meminjam Ruangan
-SISM	Surat Izin Survey Mata Kuliah
-🔁 Alur Pengajuan Surat
-1️⃣ Mahasiswa
 
-Login ke sistem
+---
 
-Mengisi form pengajuan surat
+## 📄 Jenis Surat yang Didukung
 
-Data mahasiswa (Nama, NIM, Jurusan) otomatis & read-only
+| 🆔 Kode | 📑 Jenis Surat |
+|------|----------------|
+| SPM | Surat Permohonan Magang |
+| SKAK | Surat Keterangan Aktif Kuliah |
+| SIK | Surat Izin Kuliah |
+| SIMR | Surat Izin Meminjam Ruangan |
+| SISM | Surat Izin Survey Mata Kuliah |
 
-Surat dikirim dengan status pending
+---
 
-2️⃣ Status Surat
-Status	Keterangan
-pending	Surat baru dikirim
-ditolak	Surat ditolak akademik
-diterima	Surat sedang diproses
-selesai	Surat selesai & file tersedia
-3️⃣ Aksi Mahasiswa Berdasarkan Status
-Status	Aksi
-pending	Detail, Edit, Hapus
-ditolak	Edit Ulang
-diterima	Menunggu (tidak bisa edit)
-selesai	Unduh / Preview Surat
-📊 Dashboard Mahasiswa
+## 🔁 Alur Pengajuan Surat
 
-Dashboard menampilkan:
+### 👨‍🎓 1. Mahasiswa
+- 🔑 Login ke sistem  
+- 📝 Mengisi form pengajuan surat  
+- 🔒 Data mahasiswa otomatis & *read-only*  
+- 📤 Surat dikirim dengan status **pending**  
 
-Total surat per jenis
+### 🔄 2. Status Surat
+| 📌 Status | 📝 Keterangan |
+|--------|--------------|
+| pending | Surat baru dikirim |
+| ditolak | Ditolak oleh akademik |
+| diterima | Sedang diproses |
+| selesai | Surat selesai & file tersedia |
 
-Data diambil langsung dari database
+### 🎯 3. Aksi Mahasiswa
+| Status | Aksi |
+|------|------|
+| pending | 🔍 Detail · ✏️ Edit · 🗑️ Hapus |
+| ditolak | ✏️ Edit Ulang |
+| diterima | ⏳ Menunggu |
+| selesai | ⬇️ Unduh |
 
-Menyesuaikan user yang sedang login
+---
 
-Contoh:
+## 📊 Dashboard Mahasiswa
+Dashboard menampilkan informasi:
+- 📈 Total surat per jenis  
+- 👤 Data sesuai user login  
+- 🗄️ Data diambil langsung dari database  
 
-Total Surat Permohonan Magang
+**Contoh:**
+- Total Surat Permohonan Magang  
+- Total Surat Aktif Kuliah  
+- Total Surat Izin Kuliah  
+- Total Surat Meminjam Ruangan  
 
-Total Surat Aktif Kuliah
+---
 
-Total Surat Izin Kuliah
+## 🗃️ Struktur Database (Konsep)
 
-Total Surat Meminjam Ruangan
-
-🗃️ Struktur Database (Konsep)
-Tabel surat
-
+### 📌 Tabel `surat`
 Digunakan untuk:
+- SPM · SKAK · SISM  
 
-SPM
+**Kolom penting:**
+- `user_id`
+- `jenis_surat`
+- `data_surat` (JSON)
+- `status`
+- `file_surat`
 
-SKAK
+### 📌 Tabel Khusus
+| 🗂️ Tabel | 📄 Digunakan Untuk |
+|-------|------------------|
+| sik | Surat Izin Kuliah |
+| simr | Surat Izin Meminjam Ruangan |
 
-SISM
+---
 
-Kolom penting:
+## 🔐 Keamanan
+- 🔒 Session-based Authentication  
+- 🛡️ CSRF Protection  
+- ✅ Validasi status sebelum edit / delete  
+- 📁 Upload file hanya oleh akademik  
 
-user_id
+---
 
-jenis_surat
+## 🚀 Cara Menjalankan Project
 
-data_surat (JSON)
-
-status
-
-file_surat
-
-Tabel Khusus
-Tabel	Digunakan untuk
-sik	Surat Izin Kuliah
-simr	Surat Izin Meminjam Ruangan
-
-Data dashboard mengambil dari tabel masing-masing, bukan dari tabel surat umum.
-
-🔐 Keamanan
-
-Session-based authentication
-
-CSRF protection aktif
-
-Validasi status sebelum edit / delete
-
-File upload dibatasi hanya dari admin/akademik
-
-🚀 Cara Menjalankan Project
-
-Clone repository
-
+### 1️⃣ Clone Repository
+```bash
 git clone https://github.com/username/nama-project.git
 
-
-Konfigurasi database di .env
-
+2️⃣ Konfigurasi Database
 database.default.hostname = localhost
 database.default.database = nama_db
 database.default.username = root
 database.default.password =
 
-
-Jalankan migration / import database
-
-Jalankan server
-
+3️⃣ Jalankan Server
 php spark serve
 
-
-Akses:
-
+🌐 Akses:
 http://localhost:8080
 
 📌 Catatan Pengembangan
 
-Sistem menggunakan pendekatan modular per jenis surat
+🧩 Modular per jenis surat
 
-Mudah dikembangkan untuk jenis surat baru
+➕ Mudah dikembangkan
 
-Struktur action & status konsisten di seluruh modul
+🔁 Konsisten dalam status & alur aksi
 
 👨‍🎓 Author
 
-Nama: (I Wayan Gede Goura Sakti)
-      (Wulandari)
+Nama: I Wayan Gede Goura Sakti, Dewa Ayu Wulan Dewi Pramesti
+
 Project: Tugas / Sistem Informasi Akademik
+
 Framework: CodeIgniter 4
