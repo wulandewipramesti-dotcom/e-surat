@@ -155,24 +155,6 @@ Digunakan untuk:
 
 ---
 
-## 🚀 Cara Menjalankan Project
-
-1️⃣ Clone Repository
-```bash
-git clone https://github.com/username/nama-project.git
-
-2️⃣ Konfigurasi Database
-database.default.hostname = localhost
-database.default.database = nama_db
-database.default.username = root
-database.default.password =
-
-3️⃣ Jalankan Server
-php spark serve
-
-🌐 Akses:
-http://localhost:8080
-
 📌 Catatan Pengembangan
 
 🧩 Modular per jenis surat
