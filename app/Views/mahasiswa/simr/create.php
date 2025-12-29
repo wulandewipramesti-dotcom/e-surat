@@ -57,8 +57,12 @@
             </div>
 
             <button class="btn btn-primary">
-                <i class="fas fa-file-pdf"></i> Buat & Lihat PDF
+                <i class="fas fa-file-pdf"></i> Buat Surat
             </button>
+
+            <a href="<?= base_url('mahasiswa/simr') ?>" class="btn btn-secondary ml-2">
+                Reset
+            </a>
 
         </div>
     </div>

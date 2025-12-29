@@ -82,7 +82,7 @@
             </button>
 
             <a href="<?= base_url('mahasiswa/sik') ?>" class="btn btn-secondary ml-2">
-                Kembali
+                Reset
             </a>
 
         </div>
