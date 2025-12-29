@@ -157,7 +157,7 @@ Digunakan untuk:
 
 ## 🚀 Cara Menjalankan Project
 
-### 1️⃣ Clone Repository
+1️⃣ Clone Repository
 ```bash
 git clone https://github.com/username/nama-project.git
 
